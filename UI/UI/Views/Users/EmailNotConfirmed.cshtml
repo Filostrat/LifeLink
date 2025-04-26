@@ -1,0 +1,19 @@
+﻿@{
+    ViewData["Title"] = "Пошта не підтверджена";
+}
+
+<div class="auth-container">
+    <div class="auth-card text-center">
+        <div class="auth-card-header">
+            <h2>@ViewData["Title"]</h2>
+        </div>
+
+        <div class="alert alert-warning mt-3">
+            Вашу пошту ще не підтверджено. Натисніть кнопку нижче, щоб надіслати лист.
+        </div>
+
+        <form asp-action="EmailSent" method="post" class="mt-4 d-grid">
+            <button type="submit" class="btn btn-danger">Надіслати лист</button>
+        </form>
+    </div>
+</div>

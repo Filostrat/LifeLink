@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="14.0.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+    <PackageReference Include="MediatR" Version="12.5.0" />
+    <PackageReference Include="NetTopologySuite" Version="2.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Contracts\Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DTOs\Donors\Validators\" />
+    <Folder Include="Features\Accounts\Handlers\Queries\" />
+    <Folder Include="Features\Accounts\Requests\Queries\" />
+    <Folder Include="Features\BloodTypes\Handlers\Commands\" />
+    <Folder Include="Features\BloodTypes\Requests\Commands\" />
+    <Folder Include="Features\DonationRequests\Handlers\Queries\" />
+    <Folder Include="Features\DonationRequests\Requests\Queries\" />
+  </ItemGroup>
+
+</Project>

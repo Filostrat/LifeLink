@@ -1,0 +1,19 @@
+﻿@{
+    ViewData["Title"] = "Лист надіслано";
+}
+
+<div class="auth-container">
+    <div class="auth-card text-center">
+        <div class="auth-card-header">
+            <h2>@ViewData["Title"]</h2>
+        </div>
+
+        <div class="alert alert-info mt-3">
+            📩 Лист з підтвердженням надіслано на вашу електронну пошту. Перевірте вхідні або спам.
+        </div>
+
+        <div class="auth-card-footer mt-4">
+            <a class="btn btn-danger" asp-controller="Home" asp-action="Index">На головну</a>
+        </div>
+    </div>
+</div>

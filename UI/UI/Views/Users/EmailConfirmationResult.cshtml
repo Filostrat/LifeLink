@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Підтвердження електронної пошти";
+    var confirmed = ViewBag.EmailConfirmed as bool?;
+}
+
+<div class="auth-container">
+    <div class="auth-card text-center">
+        <div class="auth-card-header">
+            <h2>@ViewData["Title"]</h2>
+        </div>
+
+        @if (confirmed == true)
+        {
+            <div class="alert alert-success mt-4">
+                <strong>✅ Успіх!</strong> Ваша електронна пошта підтверджена. 🎉
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-danger mt-4">
+                <strong>❌ Помилка!</strong> Не вдалося підтвердити пошту. Можливо, токен недійсний або застарілий.
+            </div>
+        }
+
+        <div class="auth-card-footer mt-4">
+            <a class="btn btn-danger" asp-controller="Home" asp-action="Index">На головну</a>
+        </div>
+    </div>
+</div>

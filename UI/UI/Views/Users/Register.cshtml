@@ -1,0 +1,104 @@
+﻿@model RegisterVM
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="auth-container">
+    <div class="card auth-card" style="min-width: 400px;">
+        <div class="auth-card-header">
+            <h2>Реєстрація</h2>
+        </div>
+        <div class="auth-card-body">
+            <form asp-action="Register" novalidate>
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="mb-3">
+                    <input asp-for="FirstName"
+                           class="form-control auth-input"
+                           placeholder="Ім'я" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <input asp-for="LastName"
+                           class="form-control auth-input"
+                           placeholder="Прізвище" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <select asp-for="BloodTypeId"
+                            asp-items="ViewBag.BloodTypes"
+                            class="form-control auth-input">
+                        <option value="">— Виберіть тип крові —</option>
+                    </select>
+                    <span asp-validation-for="BloodTypeId" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <input asp-for="Email"
+                           class="form-control auth-input"
+                           placeholder="Електронна пошта" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <input asp-for="UserName"
+                           class="form-control auth-input"
+                           placeholder="Логін" />
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+
+                <div class="mb-4 password-wrapper">
+                    <input asp-for="Password"
+                           type="password"
+                           class="form-control auth-input"
+                           placeholder="Пароль"
+                           id="Password" />
+                    <button type="button"
+                            class="btn-password-toggle"
+                            onclick="togglePassword('Password', this)">
+                        <i class="bi bi-eye-slash"></i>
+                    </button>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <div class="mb-4 password-wrapper">
+                    <input asp-for="ConfirmPassword"
+                           type="password"
+                           class="form-control auth-input"
+                           placeholder="Підтвердження пароля"
+                           id="ConfirmPassword" />
+                    <button type="button"
+                            class="btn-password-toggle"
+                            onclick="togglePassword('ConfirmPassword', this)">
+                        <i class="bi bi-eye-slash"></i>
+                    </button>
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-danger">Зареєструватися</button>
+                </div>
+            </form>
+        </div>
+        <div class="auth-card-footer">
+            Вже є акаунт? <a asp-action="Login">Увійти</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function togglePassword(id, btn) {
+            const input = document.getElementById(id);
+            const icon = btn.querySelector('i');
+            const isPassword = input.type === 'password';
+
+            input.type = isPassword ? 'text' : 'password';
+            icon.classList.toggle('bi-eye');
+            icon.classList.toggle('bi-eye-slash');
+        }
+    </script>
+}

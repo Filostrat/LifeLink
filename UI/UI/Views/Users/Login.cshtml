@@ -1,0 +1,45 @@
+﻿@model LoginVM
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="auth-container">
+    <div class="card auth-card">
+        <div class="auth-card-header">
+            <h2>Увійти</h2>
+        </div>
+        <div class="auth-card-body">
+            <form asp-action="Login" novalidate>
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="mb-4">
+                    <input asp-for="Email"
+                           class="form-control auth-input"
+                           placeholder="Електронна пошта" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="mb-4">
+                    <input asp-for="Password"
+                           type="password"
+                           class="form-control auth-input"
+                           placeholder="Пароль" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-danger">Увійти</button>
+                </div>
+            </form>
+        </div>
+        <div class="auth-card-footer">
+            Не маєте акаунту? <a asp-action="Register">Зареєструватися</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

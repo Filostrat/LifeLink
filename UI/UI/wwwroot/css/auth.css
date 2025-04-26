@@ -1,0 +1,121 @@
+﻿
+.auth-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 90vh;
+	background-color: #fff;
+	padding: 1rem;
+}
+
+.auth-card {
+	background-color: #fff;
+	border: 2px solid #dc3545;
+	border-radius: 1rem;
+	padding: 2rem;
+	max-width: 400px;
+	width: 100%;
+	box-shadow: 0 0 20px rgba(220, 53, 69, 0.1);
+}
+
+.auth-card-header h2 {
+	color: #dc3545;
+	text-align: center;
+	margin-bottom: 1.5rem;
+}
+
+.auth-card-footer {
+	margin-top: 1.5rem;
+	text-align: center;
+	font-size: 0.95rem;
+}
+
+.auth-input {
+	border: none;
+	border-bottom: 2px solid #dc3545;
+	border-radius: 0;
+	background-color: transparent;
+	text-align: center;
+	color: #212529;
+	font-size: 1rem;
+	padding: 0.5rem 0;
+	width: 100%;
+	transition: border-color 0.3s ease;
+	outline: none;
+	box-shadow: none;
+}
+
+	.auth-input:focus {
+		border-color: #b02a37;
+		outline: none;
+		box-shadow: none;
+	}
+
+.btn-danger {
+	background-color: #dc3545;
+	border: none;
+	border-radius: 0.5rem;
+	padding: 0.6rem;
+	font-size: 1rem;
+	color: #fff;
+	transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+	.btn-danger:hover {
+		background-color: #b02a37;
+		transform: scale(1.01);
+	}
+
+button.btn-danger:focus,
+button.btn-danger:active,
+button.btn-danger:focus-visible {
+	outline: none !important;
+	box-shadow: none !important;
+}
+
+.btn-password-toggle {
+	position: absolute;
+	right: 10px;
+	top: 50%;
+	transform: translateY(-50%);
+	background: transparent;
+	border: none;
+	padding: 0;
+	font-size: 1.2rem;
+	color: #dc3545;
+	z-index: 2;
+}
+
+	.btn-password-toggle:focus {
+		outline: none;
+		box-shadow: none;
+	}
+
+.password-wrapper {
+	position: relative;
+}
+
+.profile-form-wrapper {
+	display: flex;
+	justify-content: center;
+	padding: 2rem;
+	width: 100%;
+}
+
+.profile-form-grid {
+	width: 100%;
+	max-width: 1200px;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+	gap: 1rem;
+}
+
+	.profile-form-grid input,
+	.profile-form-grid select {
+		width: 100%;
+		padding: 0.5rem;
+		border: 1px solid #dc3545;
+		border-radius: 0.5rem;
+		background-color: #fff;
+		font-size: 1rem;
+	}
