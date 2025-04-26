@@ -1,7 +1,8 @@
 ﻿@model CreateDonationRequestVM
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Створити запит на донорство";
 }
+
 
 <div class="profile-form-wrapper d-flex justify-content-between" style="gap: 2rem;">
     <div class="form-section" style="flex: 1;">
@@ -22,17 +23,16 @@
                 <input asp-for="Longitude" type="hidden" id="lng-input" />
 
                 <div class="text-center mt-4">
-                    <button type="submit" class="btn btn-danger">Зберегти зміни</button>
+                    <button type="submit" class="btn btn-danger">Зробити запит</button>
                 </div>
             </div>
         </form>
     </div>
 
     <div style="flex: 1;">
-        <div id="map" style="height: 100%; width: 100%; border: 1px solid #ccc;"></div>
+        <div id="map" style="height: 80vh; width: 100%; border: 1px solid #ccc;"></div>
     </div>
 </div>
-
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>

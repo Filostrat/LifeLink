@@ -37,19 +37,20 @@ builder.Services.AddSingleton<JwtSecurityTokenHandler>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
 
+
 builder.Services.AddTransient<IAuthenticationService, AuthenticationService>();
-
 builder.Services.AddTransient<IBloodTypeService, BloodTypeService>();
-
 builder.Services.AddTransient<IDonorService, DonorService>();
+builder.Services.AddTransient<IDonationRequestService, DonationRequestService>();
+
 
 builder.Services.AddSingleton<ILocalStorageService, LocalStorageService>();
 
 builder.Services.AddTransient<ApiClientLoggingHandler>();
 
 builder.Services
-	.AddHttpClient("ApiClient");
-	//.AddHttpMessageHandler<ApiClientLoggingHandler>();
+	.AddHttpClient("ApiClient")
+	.AddHttpMessageHandler<ApiClientLoggingHandler>();
 
 
 builder.Services.AddTransient<IClient>(serviceProvider =>
