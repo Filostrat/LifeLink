@@ -4,7 +4,7 @@ using Domain;
 
 
 namespace Persistence.Repositories;
-public class DonationRequestRepository : GenericRepository<DonationRequest>, IDonationRequestRepositoryRepository
+public class DonationRequestRepository : GenericRepository<DonationRequest>, IDonationRequestRepository
 {
 	private readonly DonorDbContext _dbContext;
 
