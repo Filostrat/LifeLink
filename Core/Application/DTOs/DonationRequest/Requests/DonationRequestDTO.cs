@@ -1,15 +1,15 @@
-﻿namespace Domain;
+﻿namespace Application.DTOs.DonationRequest.Requests;
 
-public class DonationRequest
+public class DonationRequestDTO
 {
 	public int Id { get; set; }
 	public int BloodTypeId { get; set; }
-	public BloodType BloodType { get; set; }
+	public string BloodTypeName { get; set; }
 	public string AdminId { get; set; }
 	public string City { get; set; }
 	public double Latitude { get; set; }
 	public double Longitude { get; set; }
 	public double RadiusInMeters { get; set; }
 	public DateTime CreationDateTime { get; set; }
-	public ICollection<DonationRequestNotification> Notifications { get; set; } = [];
+	public List<DonationRequestNotificationDTO> Notifications { get; set; }
 }

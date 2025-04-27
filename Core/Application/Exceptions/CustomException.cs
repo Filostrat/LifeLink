@@ -1,4 +1,6 @@
-﻿namespace Application.Exceptions;
+﻿using MediatR;
+
+namespace Application.Exceptions;
 
 public class IdentityException : BaseException
 {
@@ -58,4 +60,10 @@ public class DonorNotFoundException : BaseException
 {
 	public DonorNotFoundException(string email)
 		: base("DonorNotFound", $"Донор з email '{email}' не знайдений.") { }
+}
+
+public class DonationRequestNotFoundException : BaseException
+{
+	public DonationRequestNotFoundException(int id)
+		: base("DonationRequestFoundException", $"Запит з Id = {id} не знайдено") { }
 }

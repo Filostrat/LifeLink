@@ -4,5 +4,7 @@ namespace UI.Contracts;
 
 public interface IDonationRequestService
 {
-	public Task CreateDonationRequest(CreateDonationRequestVM createDonationRequestVM);
+	Task CreateDonationRequest(CreateDonationRequestVM createDonationRequestVM);
+	Task<List<DonationRequestVM>> GetAllDonationRequest();
+	Task<DonationRequestVM> GetDonationRequestByIdAsync(int id);
 }

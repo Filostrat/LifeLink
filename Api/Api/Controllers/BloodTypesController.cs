@@ -19,7 +19,7 @@ public class BloodTypesController : ControllerBase
 	}
 
 	[HttpGet("blood_types")]
-	public async Task<ActionResult<List<BloodTypeDto>>> Get()
+	public async Task<ActionResult<List<BloodTypeDTO>>> Get()
 	{
 		var result = await _mediator.Send(new GetAllBloodTypesQuery());
 		return Ok(result);

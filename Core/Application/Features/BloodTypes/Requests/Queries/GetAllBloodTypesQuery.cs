@@ -4,4 +4,4 @@ using MediatR;
 
 namespace Application.Features.BloodTypes.Requests.Queries;
 
-public class GetAllBloodTypesQuery : IRequest<List<BloodTypeDto>>;
+public class GetAllBloodTypesQuery : IRequest<List<BloodTypeDTO>>;

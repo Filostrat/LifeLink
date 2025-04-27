@@ -36,7 +36,6 @@ public class CreateDonationRequestCommandHandler : IRequestHandler<CreateDonatio
 
 	public async Task<Unit> Handle(CreateDonationRequestCommand request, CancellationToken cancellationToken)
 	{
-
 		var donationRequest = _mapper.Map<DonationRequest>(request);
 
 		await _donationRequestRepository.AddAsync(donationRequest);
@@ -49,11 +48,21 @@ public class CreateDonationRequestCommandHandler : IRequestHandler<CreateDonatio
 		{
 			foreach (var item in donors)
 			{
-				var email = await _emailTemplateBuilder.CreateDonationRequestEmail(
-					item.Email, item.City, request.Latitude, request.Longitude);
+				var emailMessage = await _emailTemplateBuilder.CreateDonationRequestEmail(
+					item.Email, request.City, request.Latitude, request.Longitude);
 
-				await _messageBus.PublishAsync(email,cancellationToken);
+				await _messageBus.PublishAsync(emailMessage, cancellationToken);
+
+				donationRequest.Notifications.Add(new DonationRequestNotification
+				{
+					DonorId = item.Id,
+					Email = item.Email,
+					SentAt = DateTime.UtcNow,
+					DonationRequestId = donationRequest.Id
+				});
 			}
+
+			await _donationRequestRepository.UpdateAsync(donationRequest);
 		}
 
 		return Unit.Value;

@@ -1,0 +1,42 @@
+﻿@model DonationRequestVM
+@{
+    ViewBag.Title = "Деталі запиту #" + Model.Id;
+}
+
+<dl class="row">
+    <dt class="col-sm-3">Тип крові</dt>
+    <dd class="col-sm-9">@Model.BloodTypeName</dd>
+
+    <dt class="col-sm-3">Місто</dt>
+    <dd class="col-sm-9">@Model.City</dd>
+
+    <dt class="col-sm-3">Координати</dt>
+    <dd class="col-sm-9">@Model.Latitude, @Model.Longitude</dd>
+
+    <dt class="col-sm-3">Дата створення</dt>
+    <dd class="col-sm-9">@Model.CreationDateTime:g</dd>
+</dl>
+
+<div class="mb-3">
+    <a asp-action="Index" class="btn btn-secondary">Назад до списку</a>
+    <a asp-action="Repeat" asp-route-id="@Model.Id" class="btn btn-primary ml-2">Повторити запит</a>
+</div>
+
+<h4>Розсилка повідомлень</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Дата надсилання</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var n in Model.Notifications)
+        {
+            <tr>
+                <td>@n.Email</td>
+                <td>@n.SentAt</td>
+            </tr>
+        }
+    </tbody>
+</table>

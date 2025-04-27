@@ -284,6 +284,10 @@ namespace Persistence.Migrations
                     b.Property<int>("BloodTypeId")
                         .HasColumnType("int");
 
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreationDateTime")
                         .HasColumnType("datetime2");
 
@@ -298,7 +302,38 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BloodTypeId");
+
                     b.ToTable("DonationRequests");
+                });
+
+            modelBuilder.Entity("Domain.DonationRequestNotification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("DonationRequestId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DonorId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime>("SentAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DonationRequestId");
+
+                    b.ToTable("DonationRequestNotifications");
                 });
 
             modelBuilder.Entity("Domain.Donor", b =>
@@ -376,6 +411,28 @@ namespace Persistence.Migrations
                     b.Navigation("ToBloodType");
                 });
 
+            modelBuilder.Entity("Domain.DonationRequest", b =>
+                {
+                    b.HasOne("Domain.BloodType", "BloodType")
+                        .WithMany()
+                        .HasForeignKey("BloodTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BloodType");
+                });
+
+            modelBuilder.Entity("Domain.DonationRequestNotification", b =>
+                {
+                    b.HasOne("Domain.DonationRequest", "DonationRequest")
+                        .WithMany("Notifications")
+                        .HasForeignKey("DonationRequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DonationRequest");
+                });
+
             modelBuilder.Entity("Domain.Donor", b =>
                 {
                     b.HasOne("Domain.BloodType", "BloodType")
@@ -385,6 +442,11 @@ namespace Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("BloodType");
+                });
+
+            modelBuilder.Entity("Domain.DonationRequest", b =>
+                {
+                    b.Navigation("Notifications");
                 });
 #pragma warning restore 612, 618
         }

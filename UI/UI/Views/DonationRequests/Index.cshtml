@@ -1,5 +1,33 @@
-﻿<div class="row">
+﻿@model IEnumerable<DonationRequestVM>
+@{
+    ViewBag.Title = "Всі запити на донорство";
+}
+<div class="row mb-3">
     <div class="col-md-3">
-        <a asp-controller="DonationRequests" asp-action="Create">Зробити запит</a>
+        <a asp-action="Create" class="btn btn-danger">Зробити запит</a>
     </div>
 </div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Тип крові</th>
+            <th>Місто</th>
+            <th>Дата створення</th>
+            <th>Дії</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var req in Model)
+        {
+            <tr>
+                <td>@req.BloodTypeName</td>
+                <td>@req.City</td>
+                <td>@req.CreationDateTime</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@req.Id"
+                       class="btn btn-secondary">Деталі</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

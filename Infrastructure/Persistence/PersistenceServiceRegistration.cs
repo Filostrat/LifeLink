@@ -30,6 +30,7 @@ public static class PersistenceServiceRegistration
 		services.AddTransient<IDonorRepository, DonorRepository>();
 		services.AddTransient<IBloodTypeRepository, BloodTypeRepository>();
 		services.AddTransient<IDonationRequestRepository, DonationRequestRepository>();
+		services.AddTransient<IDonationRequestNotificationRepository, DonationRequestNotificationRepository>();
 
 		return services;
 	}
