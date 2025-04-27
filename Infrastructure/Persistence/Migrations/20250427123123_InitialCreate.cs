@@ -28,24 +28,6 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DonationRequests",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    BloodTypeId = table.Column<int>(type: "int", nullable: false),
-                    AdminId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Latitude = table.Column<double>(type: "float", nullable: false),
-                    Longitude = table.Column<double>(type: "float", nullable: false),
-                    RadiusInMeters = table.Column<double>(type: "float", nullable: false),
-                    CreationDateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DonationRequests", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "BloodCompatibilities",
                 columns: table => new
                 {
@@ -69,6 +51,31 @@ namespace Persistence.Migrations
                         principalTable: "BloodTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DonationRequests",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BloodTypeId = table.Column<int>(type: "int", nullable: false),
+                    AdminId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Latitude = table.Column<double>(type: "float", nullable: false),
+                    Longitude = table.Column<double>(type: "float", nullable: false),
+                    RadiusInMeters = table.Column<double>(type: "float", nullable: false),
+                    CreationDateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DonationRequests", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DonationRequests_BloodTypes_BloodTypeId",
+                        column: x => x.BloodTypeId,
+                        principalTable: "BloodTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -97,6 +104,28 @@ namespace Persistence.Migrations
                         name: "FK_Donors_BloodTypes_BloodTypeId",
                         column: x => x.BloodTypeId,
                         principalTable: "BloodTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DonationRequestNotifications",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DonationRequestId = table.Column<int>(type: "int", nullable: false),
+                    DonorId = table.Column<int>(type: "int", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    SentAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DonationRequestNotifications", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DonationRequestNotifications_DonationRequests_DonationRequestId",
+                        column: x => x.DonationRequestId,
+                        principalTable: "DonationRequests",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -161,6 +190,16 @@ namespace Persistence.Migrations
                 column: "ToBloodTypeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_DonationRequestNotifications_DonationRequestId",
+                table: "DonationRequestNotifications",
+                column: "DonationRequestId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DonationRequests_BloodTypeId",
+                table: "DonationRequests",
+                column: "BloodTypeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Donors_BloodTypeId",
                 table: "Donors",
                 column: "BloodTypeId");
@@ -179,10 +218,13 @@ namespace Persistence.Migrations
                 name: "BloodCompatibilities");
 
             migrationBuilder.DropTable(
-                name: "DonationRequests");
+                name: "DonationRequestNotifications");
 
             migrationBuilder.DropTable(
                 name: "Donors");
+
+            migrationBuilder.DropTable(
+                name: "DonationRequests");
 
             migrationBuilder.DropTable(
                 name: "BloodTypes");

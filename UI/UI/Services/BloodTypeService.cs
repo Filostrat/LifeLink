@@ -13,7 +13,7 @@ public class BloodTypeService : BaseHttpService, IBloodTypeService
 		_client = client;
 	}
 
-	public async Task<ICollection<BloodTypeDto>> GetBloodTypes()
+	public async Task<ICollection<BloodTypeDTO>> GetBloodTypes()
 	{
 		return (await _client.Blood_typesAsync()).Result;
 	}

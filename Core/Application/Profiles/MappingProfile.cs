@@ -7,6 +7,7 @@ using Application.DTOs.Donors.Responses;
 using Application.Features.Accounts.Requests.Commands;
 using Application.Features.DonationRequests.Requests.Commands;
 using Application.Features.Donors.Requests.Commands;
+
 using AutoMapper;
 
 using Domain;
@@ -20,7 +21,7 @@ public class MappingProfile : Profile
 	{
 		CreateMap<LoginAccountRequestDTO, LoginAccountCommand>();
 		CreateMap<RegisterAccountRequestDTO, RegisterAccountCommand>();
-		CreateMap<BloodType, BloodTypeDto>();
+		CreateMap<BloodType, BloodTypeDTO>();
 		CreateMap<Donor, DonorResponseDTO>();
 		CreateMap<UpdateCurrentDonorCommand, UpdateDonorRequestDTO>().ReverseMap();
 
@@ -36,5 +37,10 @@ public class MappingProfile : Profile
 
 		CreateMap<CreateDonationRequestCommand, DonationRequest>()
 			.ForMember(dest => dest.CreationDateTime, opt => opt.MapFrom(_ => DateTime.UtcNow));
+
+		CreateMap<DonationRequest, DonationRequestDTO>()
+			.ForMember(dest => dest.BloodTypeName, opt => opt.MapFrom(src => src.BloodType.Type));
+
+		CreateMap<DonationRequestNotification, DonationRequestNotificationDTO>();
 	}
 }

@@ -8,7 +8,7 @@ using MediatR;
 
 namespace Application.Features.BloodTypes.Handlers.Queries;
 
-public class GetAllBloodTypesQueryHandler : IRequestHandler<GetAllBloodTypesQuery, List<BloodTypeDto>>
+public class GetAllBloodTypesQueryHandler : IRequestHandler<GetAllBloodTypesQuery, List<BloodTypeDTO>>
 {
 	private readonly IBloodTypeRepository _bloodTypeRepository;
 	private readonly IMapper _mapper;
@@ -19,9 +19,9 @@ public class GetAllBloodTypesQueryHandler : IRequestHandler<GetAllBloodTypesQuer
 		_mapper = mapper;
 	}
 
-	public async Task<List<BloodTypeDto>> Handle(GetAllBloodTypesQuery request, CancellationToken cancellationToken)
+	public async Task<List<BloodTypeDTO>> Handle(GetAllBloodTypesQuery request, CancellationToken cancellationToken)
 	{
 		var bloodTypes = await _bloodTypeRepository.GetAllAsync();
-		return _mapper.Map<List<BloodTypeDto>>(bloodTypes);
+		return _mapper.Map<List<BloodTypeDTO>>(bloodTypes);
 	}
 }

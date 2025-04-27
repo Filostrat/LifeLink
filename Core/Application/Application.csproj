@@ -23,8 +23,6 @@
     <Folder Include="Features\Accounts\Requests\Queries\" />
     <Folder Include="Features\BloodTypes\Handlers\Commands\" />
     <Folder Include="Features\BloodTypes\Requests\Commands\" />
-    <Folder Include="Features\DonationRequests\Handlers\Queries\" />
-    <Folder Include="Features\DonationRequests\Requests\Queries\" />
   </ItemGroup>
 
 </Project>

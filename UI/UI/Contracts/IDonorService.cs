@@ -4,6 +4,6 @@ namespace UI.Contracts;
 
 public interface IDonorService
 {
-	public Task<DonorVM> DonorInformation();
-	public Task<DonorVM> UpdateDonorInformation(DonorVM donorVM);
+	Task<DonorVM> DonorInformation();
+	Task<DonorVM> UpdateDonorInformation(DonorVM donorVM);
 }

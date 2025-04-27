@@ -23,7 +23,8 @@ public class DonationRequestsController : Controller
 
 	public async Task<ActionResult> Index()
 	{
-		return View();
+		var requests = await _donationRequestService.GetAllDonationRequest();
+		return View(requests);
 	}
 
 	public async Task<ActionResult> Create()
@@ -41,5 +42,29 @@ public class DonationRequestsController : Controller
 		await _donationRequestService.CreateDonationRequest(createDonationRequestVM);
 
 		return View();
+	}
+
+	[HttpGet]
+	public async Task<ActionResult> Details(int id)
+	{
+		var vm = await _donationRequestService.GetDonationRequestByIdAsync(id);
+		return View(vm);
+	}
+
+	[HttpGet]
+	public async Task<ActionResult> Repeat(int id)
+	{
+		var vm = await _donationRequestService.GetDonationRequestByIdAsync(id);
+
+		var createDonationRequestVM = new CreateDonationRequestVM()
+		{
+			BloodTypeId = vm.BloodTypeId,
+			City = vm.City,
+			Latitude = vm.Latitude,
+			Longitude = vm.Longitude	
+		};
+
+		await _donationRequestService.CreateDonationRequest(createDonationRequestVM);
+		return RedirectToAction(nameof(Index));
 	}
 }

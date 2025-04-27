@@ -39,18 +39,27 @@ public class DonorRepository : GenericRepository<Donor>, IDonorRepository
 				_dbContext.BloodCompatibilities.Any(c =>
 					c.FromBloodTypeId == d.BloodTypeId &&
 					c.ToBloodTypeId == recipientBloodTypeId)
-				&& d.Location != null
-				&& d.Location.Distance(location) <= _settings.RadiusInMeters
-				&& d.Weight >= _settings.MinWeightKg
-				&& (d.Gender == "Male" && d.LastDonation <= menThreshold
-					|| d.Gender == "Female" && d.LastDonation <= womenThreshold)
+
+				&& (d.Location == null
+					|| d.Location.Distance(location) <= _settings.RadiusInMeters)
+
+				&& (!d.Weight.HasValue
+					|| d.Weight.Value >= _settings.MinWeightKg)
+
+				&& (
+					d.Gender == null
+					|| (d.Gender == "Male"
+						&& (!d.LastDonation.HasValue || d.LastDonation <= menThreshold))
+					|| (d.Gender == "Female"
+						&& (!d.LastDonation.HasValue || d.LastDonation <= womenThreshold))
+				)
 			)
 			.ToListAsync();
 
 		_logger.LogInformation("Found {Count} eligible donors", donors.Count);
-
 		return donors;
 	}
+
 
 	public async Task<Donor> GetByEmailAsync(string email)
 	{

@@ -5,8 +5,8 @@ namespace Api.Middlewares;
 
 internal class GlobalExceptionHandlerMiddleware
 {
-	private readonly RequestDelegate _next;
 	private readonly ILogger<GlobalExceptionHandlerMiddleware> _logger;
+	private readonly RequestDelegate _next;
 
 	public GlobalExceptionHandlerMiddleware(RequestDelegate next, ILogger<GlobalExceptionHandlerMiddleware> logger)
 	{
@@ -63,6 +63,7 @@ internal class GlobalExceptionHandlerMiddleware
 			UserCreationFailedException => StatusCodes.Status400BadRequest,
 			EmailConfirmationFailedException => StatusCodes.Status400BadRequest,
 			EmailAlreadyConfirmedException => StatusCodes.Status400BadRequest,
+			DonationRequestNotFoundException => StatusCodes.Status400BadRequest,
 			_ => StatusCodes.Status500InternalServerError
 		};
 	}

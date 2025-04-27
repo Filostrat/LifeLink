@@ -13,6 +13,7 @@ public class DonorDbContext : DbContext
 	public DbSet<BloodType> BloodTypes { get; set; }
 	public DbSet<BloodCompatibility> BloodCompatibilities { get; set; }
 	public DbSet<DonationRequest> DonationRequests { get; set; }
+	public DbSet<DonationRequestNotification> DonationRequestNotifications { get; set; }
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
@@ -22,5 +23,6 @@ public class DonorDbContext : DbContext
 		modelBuilder.ApplyConfiguration(new BloodTypeConfiguration());
 		modelBuilder.ApplyConfiguration(new DonationRequestConfiguration());
 		modelBuilder.ApplyConfiguration(new BloodCompatibilityConfiguration());
+		modelBuilder.ApplyConfiguration(new DonationRequestNotificationConfiguration());
 	}
 }

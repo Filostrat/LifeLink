@@ -1,6 +1,7 @@
 ﻿using Api.Services.Contracts;
 using Application.DTOs.DonationRequest.Requests;
 using Application.Features.DonationRequests.Requests.Commands;
+using Application.Features.DonationRequests.Requests.Queries;
 using AutoMapper;
 
 using MediatR;
@@ -12,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
 
+[Authorize(Roles = "Administrator")]
 public class DonationRequestsController : Controller
 {
 	private readonly IHttpContextService _httpContextService;
@@ -28,7 +30,6 @@ public class DonationRequestsController : Controller
 	}
 
 	[HttpPost("create_donation_request")]
-	[Authorize(Roles = "Administrator")]
 	public async Task<IActionResult> CreateDonationRequest([FromBody] CreateDonationRequestDTO request, CancellationToken cancellationToken)
 	{
 		var query = _mapper.Map<CreateDonationRequestCommand> (request);
@@ -37,5 +38,27 @@ public class DonationRequestsController : Controller
 
 		await _mediator.Send(query, cancellationToken);
 		return Ok();
+	}
+
+	[HttpGet("all_donation_requests")]
+	public async Task<ActionResult<List<DonationRequestDTO>>> GetAllDonationRequests(CancellationToken cancellationToken)
+	{
+		var query = new GetAllDonationRequestsQuery
+		{
+			AdminId = _httpContextService.UserId
+		};
+
+		var result = await _mediator.Send(query, cancellationToken);
+		return Ok(result);
+	}
+
+	[HttpGet("donation_request/{id}")]
+	public async Task<ActionResult<DonationRequestDTO>> GetDonationRequestById(int id, CancellationToken cancellationToken)
+	{
+		var query = new GetDonationRequestByIdQuery(id);
+
+		var result = await _mediator.Send(query, cancellationToken);
+
+		return Ok(result);
 	}
 }
