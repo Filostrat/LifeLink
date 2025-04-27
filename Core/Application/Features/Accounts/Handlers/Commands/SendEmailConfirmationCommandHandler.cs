@@ -10,13 +10,16 @@ namespace Application.Features.Accounts.Handlers.Commands;
 
 public class SendEmailConfirmationCommandHandler : IRequestHandler<SendEmailConfirmationCommand, Unit>
 {
-	private readonly IEmailTemplateBuilder _emailTemplateBuilder;
 	private readonly ILogger<SendEmailConfirmationCommandHandler> _logger;
+	private readonly IEmailTemplateBuilder _emailTemplateBuilder;
+	private readonly IMessageBus _messageBus;
 
-	public SendEmailConfirmationCommandHandler(IEmailTemplateBuilder emailTemplateBuilder,
-											   ILogger<SendEmailConfirmationCommandHandler> logger)
+	public SendEmailConfirmationCommandHandler(ILogger<SendEmailConfirmationCommandHandler> logger,
+											   IEmailTemplateBuilder emailTemplateBuilder,
+											   IMessageBus messageBus)
 	{
 		_emailTemplateBuilder = emailTemplateBuilder;
+		_messageBus = messageBus;
 		_logger = logger;
 	}
 
@@ -24,7 +27,10 @@ public class SendEmailConfirmationCommandHandler : IRequestHandler<SendEmailConf
 	{
 		_logger.LogInformation("Sending email confirmation for user {UserId}", request.UserId);
 
-		if (!await _emailTemplateBuilder.CreateConfirmEmail(request.BaseUrl, request.UserId, cancellationToken))
+		var email = await _emailTemplateBuilder.CreateConfirmEmail(
+			request.BaseUrl, request.UserId);
+
+		if (!await _messageBus.PublishAsync(email, cancellationToken))
 		{
 			throw new EmailNotSendException();
 		}

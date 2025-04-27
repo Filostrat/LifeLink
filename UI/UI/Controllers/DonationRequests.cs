@@ -11,10 +11,13 @@ namespace UI.Controllers;
 [Authorize(Roles = "Administrator")]
 public class DonationRequestsController : Controller
 {
+	private readonly IDonationRequestService _donationRequestService;
 	private readonly IBloodTypeService _bloodTypeService;
 
-	public DonationRequestsController(IBloodTypeService bloodTypeService)
+	public DonationRequestsController(IDonationRequestService donationRequestService, 
+									  IBloodTypeService bloodTypeService)
 	{
+		_donationRequestService = donationRequestService;
 		_bloodTypeService = bloodTypeService;
 	}
 
@@ -35,6 +38,7 @@ public class DonationRequestsController : Controller
 	[HttpPost]
 	public async Task<ActionResult> Create(CreateDonationRequestVM createDonationRequestVM)
 	{
+		await _donationRequestService.CreateDonationRequest(createDonationRequestVM);
 
 		return View();
 	}

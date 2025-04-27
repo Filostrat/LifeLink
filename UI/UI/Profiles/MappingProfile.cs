@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
+
 using UI.Models.Authentication;
+using UI.Models.DonationRequest;
 using UI.Models.Donors;
 using UI.Services.Base;
+
 
 namespace UI.Profiles;
 
@@ -14,5 +17,6 @@ public class MappingProfile : Profile
 			.ForMember(dest => dest.LastDonation, opt => opt.MapFrom(src => src.LastDonation.Value.LocalDateTime));
 
 		CreateMap<UpdateDonorRequestDTO, DonorVM>().ReverseMap();
+		CreateMap<CreateDonationRequestDTO, CreateDonationRequestVM>().ReverseMap();
 	}
 }

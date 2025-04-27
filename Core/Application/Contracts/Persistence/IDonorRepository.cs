@@ -6,6 +6,6 @@ namespace Application.Contracts.Persistence;
 
 public interface IDonorRepository : IGenericRepository<Donor>
 {
-	Task<IEnumerable<Donor>> GetDonorsByBloodTypeAndLocationAsync(int bloodTypeId, Point location, double radiusInMeters);
+	Task<IEnumerable<Donor>> GetDonorsByBloodTypeAndLocationAsync(int bloodTypeId, Point location);
 	Task<Donor> GetByEmailAsync(string email);
 }

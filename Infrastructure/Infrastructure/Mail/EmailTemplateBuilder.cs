@@ -10,15 +10,13 @@ namespace Infrastructure.Mail;
 public class EmailTemplateBuilder : IEmailTemplateBuilder
 {
 	private readonly IAuthenticationService _authenticationService;
-	private readonly IMessageBus _messageBus;
 
-	public EmailTemplateBuilder(IAuthenticationService authenticationService,IMessageBus messageBus)
+	public EmailTemplateBuilder(IAuthenticationService authenticationService)
 	{
 		_authenticationService = authenticationService;
-		_messageBus = messageBus;
 	}
 
-	public async Task<bool> CreateConfirmEmail(string baseUrl, string userId, CancellationToken cancellationToken)
+	public async Task<Email> CreateConfirmEmail(string baseUrl, string userId)
 	{
 		var token = await _authenticationService.GenerateConfirmEmailTokenAsync(userId);
 
@@ -34,10 +32,10 @@ public class EmailTemplateBuilder : IEmailTemplateBuilder
 			Body = $"Please confirm your email by clicking <a href=\"{confirmationLink}\">here</a>"
 		};
 
-		return await _messageBus.PublishAsync(emailMessage, cancellationToken);
+		return emailMessage;
 	}
 
-	public async Task<bool> CreateDonationRequestEmailTemplate(string email, string city, double latitude, double longitude, CancellationToken cancellationToken)
+	public async Task<Email> CreateDonationRequestEmail(string email, string city, double latitude, double longitude)
 	{
 		string googleLocationLink = $"https://www.google.com/maps/search/?api=1&query={latitude},{longitude}";
 
@@ -48,6 +46,6 @@ public class EmailTemplateBuilder : IEmailTemplateBuilder
 			Body = $"В місті {city} за <a href=\"{googleLocationLink}\">локацією</a> потрібна саме твоя кров!"
 		};
 
-		return await _messageBus.PublishAsync(emailMessage, cancellationToken);
+		return emailMessage;
 	}
 }
