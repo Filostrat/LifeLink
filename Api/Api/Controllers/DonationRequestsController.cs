@@ -28,7 +28,7 @@ public class DonationRequestsController : Controller
 	}
 
 	[HttpPost("create_donation_request")]
-	[Authorize("Administrator")]
+	[Authorize(Roles = "Administrator")]
 	public async Task<IActionResult> CreateDonationRequest([FromBody] CreateDonationRequestDTO request, CancellationToken cancellationToken)
 	{
 		var query = _mapper.Map<CreateDonationRequestCommand> (request);

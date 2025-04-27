@@ -1,52 +1,58 @@
-﻿.profile-container {
-    display: flex;
-    width: 100%;
-    height: 100vh;
-    margin: 0;
-  }
+﻿.profile-form-wrapper {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	max-width: 1200px;
+	width: 100%;
+	gap: 2rem;
+	margin: 0 auto;
+	height: 100vh;
+	background: white;
+	border-radius: 0.5rem;
+	overflow: hidden;
+}
 
-  .map-panel,
-  .info-panel {
-    flex: 1;
-    box-sizing: border-box;
-  }
+.info-panel {
+	flex: 0 0 400px;
+	padding: 2rem;
+	background: #f8f9fa;
+	box-sizing: border-box;
+}
 
-  .info-panel {
-    padding: 2rem;
-    overflow-y: auto;
-    background: #f8f9fa;
-  }
+	.info-panel .form-label {
+		margin-bottom: 0.25rem;
+		display: block;
+		font-weight: 600;
+	}
 
-  .info-panel .profile-form-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-row-gap: 1rem;
-  }
-  .info-panel .auth-input,
-  .info-panel select.auth-input {
-    width: 100%;
-    padding: 0.5rem;
-    box-sizing: border-box;
-  }
-  .info-panel .form-label {
-    margin-bottom: 0.25rem;
-    display: block;
-    font-weight: 600;
-  }
+	.info-panel .auth-input,
+	.info-panel select.auth-input {
+		width: 100%;
+		padding: 0.5rem;
+		margin-bottom: 1rem;
+		box-sizing: border-box;
+		border: 1px solid #ced4da;
+		border-radius: 0.25rem;
+	}
 
-  .map-panel #map {
-    width: 100%;
-    height: 100%;
-  }
+	.info-panel .btn-submit {
+		display: block;
+		width: 100%;
+		padding: 0.75rem;
+		background: #dc3545;
+		color: white;
+		border: none;
+		border-radius: 0.25rem;
+		font-size: 1rem;
+		cursor: pointer;
+	}
 
-  .info-panel .btn-submit {
-    display: block;
-    width: 100%;
-    padding: 0.75rem;
-    background: #dc3545;
-    color: white;
-    border: none;
-    border-radius: 0.25rem;
-    font-size: 1rem;
-    cursor: pointer;
-  }
+.map-panel {
+	flex: 1;
+	box-sizing: border-box;
+}
+
+	.map-panel #map {
+		width: 100%;
+		height: 80vh;
+	}

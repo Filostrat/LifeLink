@@ -25,13 +25,13 @@ public class DonorRepository : GenericRepository<Donor>, IDonorRepository
 		_logger = logger;
 	}
 
-	public async Task<IEnumerable<Donor>> GetDonorsByBloodTypeAndLocationAsync(int recipientBloodTypeId, Point location, double radiusInMeters)
+	public async Task<IEnumerable<Donor>> GetDonorsByBloodTypeAndLocationAsync(int recipientBloodTypeId, Point location)
 	{
 		var now = DateTime.UtcNow;
 		var menThreshold = now.AddMonths(-_settings.MenDonationIntervalMonths);
 		var womenThreshold = now.AddMonths(-_settings.WomenDonationIntervalMonths);
 
-		_logger.LogInformation("Searching donors for blood type {BloodTypeId} within {Radius} meters", recipientBloodTypeId, radiusInMeters);
+		_logger.LogInformation("Searching donors for blood type {BloodTypeId} within {Radius} meters", recipientBloodTypeId);
 
 		var donors = await _dbContext.Donors
 			.Include(d => d.BloodType)
@@ -40,7 +40,7 @@ public class DonorRepository : GenericRepository<Donor>, IDonorRepository
 					c.FromBloodTypeId == d.BloodTypeId &&
 					c.ToBloodTypeId == recipientBloodTypeId)
 				&& d.Location != null
-				&& d.Location.Distance(location) <= radiusInMeters
+				&& d.Location.Distance(location) <= _settings.RadiusInMeters
 				&& d.Weight >= _settings.MinWeightKg
 				&& (d.Gender == "Male" && d.LastDonation <= menThreshold
 					|| d.Gender == "Female" && d.LastDonation <= womenThreshold)
