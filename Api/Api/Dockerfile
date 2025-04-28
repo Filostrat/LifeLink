@@ -9,7 +9,7 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["Api/Api/Api.csproj", "Api/Api/"]
-COPY ["Core/Contracts/Domain.csproj", "Core/Contracts/"]
+COPY ["Core/Domain/Domain.csproj", "Core/Domain/"]
 COPY ["Infrastructure/Identity/Identity.csproj", "Infrastructure/Identity/"]
 COPY ["Core/Application/Application.csproj", "Core/Application/"]
 COPY ["Infrastructure/Infrastructure/Infrastructure.csproj", "Infrastructure/Infrastructure/"]

@@ -35,7 +35,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\Contracts\Domain.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Identity\Identity.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Infrastructure\Infrastructure.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Persistence\Persistence.csproj" />

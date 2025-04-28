@@ -14,15 +14,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Contracts\Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="DTOs\Donors\Validators\" />
     <Folder Include="Features\Accounts\Handlers\Queries\" />
     <Folder Include="Features\Accounts\Requests\Queries\" />
     <Folder Include="Features\BloodTypes\Handlers\Commands\" />
     <Folder Include="Features\BloodTypes\Requests\Commands\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
 </Project>
