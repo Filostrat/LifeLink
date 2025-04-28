@@ -5,12 +5,4 @@ using Domain;
 
 namespace Persistence.Repositories;
 
-public class BloodTypeRepository : GenericRepository<BloodType>, IBloodTypeRepository
-{
-	private readonly DonorDbContext _dbContext;
-
-	public BloodTypeRepository(DonorDbContext dbContext) : base(dbContext)
-	{
-		_dbContext = dbContext;
-	}
-}
+public class BloodTypeRepository(DonorDbContext dbContext) : GenericRepository<BloodType>(dbContext), IBloodTypeRepository;

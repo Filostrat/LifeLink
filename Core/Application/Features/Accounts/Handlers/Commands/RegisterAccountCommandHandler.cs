@@ -49,7 +49,7 @@ public class RegisterAccountCommandHandler : IRequestHandler<RegisterAccountComm
 			Email = request.Email.ToUpper(),
 		};
 
-		await _donorRepository.AddAsync(donor);
+		await _donorRepository.AddAsync(donor, cancellationToken);
 
 		return dto;
 	}

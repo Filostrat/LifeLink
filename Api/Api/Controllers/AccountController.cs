@@ -10,6 +10,7 @@ using MediatR;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading;
 
 
 namespace Api.Controllers;
@@ -35,34 +36,34 @@ public class AccountController : ControllerBase
 	}
 
 	[HttpPost("login")]
-	public async Task<ActionResult<LoginAccountResponseDTO>> Login([FromBody] LoginAccountRequestDTO request)
+	public async Task<ActionResult<LoginAccountResponseDTO>> Login([FromBody] LoginAccountRequestDTO request, CancellationToken cancellationToken)
 	{
 		var command = _mapper.Map<LoginAccountCommand>(request);
 
-		var response = await _mediator.Send(command);
+		var response = await _mediator.Send(command, cancellationToken);
 
 		return Ok(response);
 	}
 
 	[HttpPost("register")]
-	public async Task<ActionResult<LoginAccountResponseDTO>> Register(RegisterAccountRequestDTO request)
+	public async Task<ActionResult<LoginAccountResponseDTO>> Register(RegisterAccountRequestDTO request, CancellationToken cancellationToken)
 	{
 		var command = _mapper.Map<RegisterAccountCommand>(request);
 
-		var response = await _mediator.Send(command);
+		var response = await _mediator.Send(command, cancellationToken);
 
 		return Ok(response);
 	}
 
 	[HttpGet("confirm-email")]
 	[Authorize]
-	public async Task<ActionResult<LoginAccountResponseDTO>> ConfirmEmail([FromQuery] string token)
+	public async Task<ActionResult<LoginAccountResponseDTO>> ConfirmEmail([FromQuery] string token,CancellationToken cancellationToken)
 	{
 		var userId = _httpContextService.UserId;
 
 		var command = new ConfirmEmailCommand(userId, token);
 
-		var response = await _mediator.Send(command);
+		var response = await _mediator.Send(command, cancellationToken);
 
 		return Ok(response);
 	}

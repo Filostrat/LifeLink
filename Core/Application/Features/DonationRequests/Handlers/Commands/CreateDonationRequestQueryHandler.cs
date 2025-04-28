@@ -38,11 +38,11 @@ public class CreateDonationRequestCommandHandler : IRequestHandler<CreateDonatio
 	{
 		var donationRequest = _mapper.Map<DonationRequest>(request);
 
-		await _donationRequestRepository.AddAsync(donationRequest);
+		await _donationRequestRepository.AddAsync(donationRequest, cancellationToken);
 
 		var donors = await _donorRepository.GetDonorsByBloodTypeAndLocationAsync(
 			request.BloodTypeId,
-			new Point(request.Longitude, request.Latitude) { SRID = 4326 });
+			new Point(request.Longitude, request.Latitude) { SRID = 4326 }, cancellationToken);
 
 		if (donors != null)
 		{
@@ -62,7 +62,7 @@ public class CreateDonationRequestCommandHandler : IRequestHandler<CreateDonatio
 				});
 			}
 
-			await _donationRequestRepository.UpdateAsync(donationRequest);
+			await _donationRequestRepository.UpdateAsync(donationRequest, cancellationToken);
 		}
 
 		return Unit.Value;
