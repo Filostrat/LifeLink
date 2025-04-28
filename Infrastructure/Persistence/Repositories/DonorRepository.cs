@@ -25,7 +25,7 @@ public class DonorRepository : GenericRepository<Donor>, IDonorRepository
 		_logger = logger;
 	}
 
-	public async Task<IEnumerable<Donor>> GetDonorsByBloodTypeAndLocationAsync(int recipientBloodTypeId, Point location)
+	public async Task<IEnumerable<Donor>> GetDonorsByBloodTypeAndLocationAsync(int recipientBloodTypeId, Point location, CancellationToken cancellationToken)
 	{
 		var now = DateTime.UtcNow;
 		var menThreshold = now.AddMonths(-_settings.MenDonationIntervalMonths);
@@ -54,18 +54,18 @@ public class DonorRepository : GenericRepository<Donor>, IDonorRepository
 						&& (!d.LastDonation.HasValue || d.LastDonation <= womenThreshold))
 				)
 			)
-			.ToListAsync();
+			.ToListAsync(cancellationToken);
 
 		_logger.LogInformation("Found {Count} eligible donors", donors.Count);
 		return donors;
 	}
 
 
-	public async Task<Donor> GetByEmailAsync(string email)
+	public async Task<Donor> GetByEmailAsync(string email, CancellationToken cancellationToken)
 	{
 		var donor = await _dbContext.Donors
 			.Include(d => d.BloodType)
-			.FirstOrDefaultAsync(d => d.Email == email);
+			.FirstOrDefaultAsync(d => d.Email == email, cancellationToken);
 
 		return donor;
 	}

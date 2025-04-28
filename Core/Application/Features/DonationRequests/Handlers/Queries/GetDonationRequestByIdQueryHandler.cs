@@ -24,7 +24,7 @@ public class GetDonationRequestByIdQueryHandler : IRequestHandler<GetDonationReq
 
 	public async Task<DonationRequestDTO> Handle(GetDonationRequestByIdQuery request,CancellationToken cancellationToken)
 	{
-		var entity = await _repository.GetWithIncludesAsync(request.Id) ?? 
+		var entity = await _repository.GetWithIncludesAsync(request.Id, cancellationToken) ?? 
 			throw new DonationRequestNotFoundException(request.Id);
 
 		return _mapper.Map<DonationRequestDTO>(entity);

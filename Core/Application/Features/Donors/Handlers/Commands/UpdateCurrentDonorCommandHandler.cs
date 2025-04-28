@@ -28,7 +28,7 @@ public class UpdateCurrentDonorCommandHandler : IRequestHandler<UpdateCurrentDon
 	{
 		_logger.LogInformation("Starting UpdateCurrentDonorCommandHandler for email: {Email}", request.Email);
 
-		var donor = await _donorRepository.GetByEmailAsync(request.Email);
+		var donor = await _donorRepository.GetByEmailAsync(request.Email, cancellationToken);
 		if (donor == null)
 		{
 			_logger.LogWarning("Donor with email {Email} not found.", request.Email);
@@ -43,10 +43,10 @@ public class UpdateCurrentDonorCommandHandler : IRequestHandler<UpdateCurrentDon
 			_logger.LogInformation("Updated donor location to Latitude: {Latitude}, Longitude: {Longitude}", request.Latitude, request.Longitude);
 		}
 
-		await _donorRepository.UpdateAsync(donor);
+		await _donorRepository.UpdateAsync(donor, cancellationToken);
 		_logger.LogInformation("Donor with email {Email} updated successfully.", request.Email);
 
-		donor = await _donorRepository.GetAsync(donor.Id);
+		donor = await _donorRepository.GetAsync(donor.Id, cancellationToken);
 		if (donor == null)
 		{
 			_logger.LogError("Donor with id {DonorId} not found after update.", donor.Id);

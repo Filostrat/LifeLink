@@ -30,16 +30,16 @@ public class EmailConsumerHostedService : BackgroundService
 		_logger = logger;
 	}
 
-	protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+	protected override async Task ExecuteAsync(CancellationToken cancellationToken)
 	{
 		_consumer.Subscribe(_kafkaSettings.Value.Topic);
 		_logger.LogInformation("Subscribed to topic {Topic}", _kafkaSettings.Value.Topic);
 
-		while (!stoppingToken.IsCancellationRequested)
+		while (!cancellationToken.IsCancellationRequested)
 		{
 			try
 			{
-				var msg = await _consumer.ConsumeAsync(stoppingToken);
+				var msg = await _consumer.ConsumeAsync(cancellationToken);
 				if (msg?.Message?.Value != null)
 				{
 					var email = JsonConvert.DeserializeObject<Email>(msg.Message.Value);

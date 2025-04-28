@@ -22,7 +22,7 @@ public class GetCurrentDonorQueryHandler : IRequestHandler<GetCurrentDonorQuery,
 
 	public async Task<DonorResponseDTO> Handle(GetCurrentDonorQuery request, CancellationToken cancellationToken)
 	{
-		var donor = await _donorRepository.GetByEmailAsync(request.Email) ?? throw new DonorNotFoundException(request.Email);
+		var donor = await _donorRepository.GetByEmailAsync(request.Email, cancellationToken) ?? throw new DonorNotFoundException(request.Email);
 
 		return _mapper.Map<DonorResponseDTO>(donor);
 	}

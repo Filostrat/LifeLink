@@ -21,7 +21,7 @@ public class GetAllBloodTypesQueryHandler : IRequestHandler<GetAllBloodTypesQuer
 
 	public async Task<List<BloodTypeDTO>> Handle(GetAllBloodTypesQuery request, CancellationToken cancellationToken)
 	{
-		var bloodTypes = await _bloodTypeRepository.GetAllAsync();
+		var bloodTypes = await _bloodTypeRepository.GetAllAsync(cancellationToken);
 		return _mapper.Map<List<BloodTypeDTO>>(bloodTypes);
 	}
 }

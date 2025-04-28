@@ -22,7 +22,7 @@ public class GetAllDonationRequestsQueryHandler : IRequestHandler<GetAllDonation
 
 	public async Task<List<DonationRequestDTO>> Handle(GetAllDonationRequestsQuery request, CancellationToken cancellationToken)
 	{
-		var entities = await _repository.GetAllWithNotificationsAsync(request.AdminId);
+		var entities = await _repository.GetAllWithNotificationsAsync(cancellationToken,request.AdminId);
 		return _mapper.Map<List<DonationRequestDTO>>(entities);
 	}
 }

@@ -5,9 +5,5 @@ using Domain;
 
 namespace Persistence.Repositories;
 
-public class DonationRequestNotificationRepository : GenericRepository<DonationRequestNotification>, IDonationRequestNotificationRepository
-{
-	public DonationRequestNotificationRepository(DonorDbContext dbContext) : base(dbContext)
-	{
-	}
-}
+public class DonationRequestNotificationRepository(DonorDbContext dbContext) 
+	: GenericRepository<DonationRequestNotification>(dbContext), IDonationRequestNotificationRepository;
