@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace Application.Contracts.Notifications;
 
-public interface INotificationStrategy
+public interface INotificationChannelService
 {
-	NotificationChannel Channel { get; }
-	Task SendAsync(Donor donor, DonationRequest request, CancellationToken cancellationToken);
+	NotificationChannelEnum ChannelName { get; }
+
+	Task PublishAsync<T>(T message, CancellationToken cancellationToken);
 }
