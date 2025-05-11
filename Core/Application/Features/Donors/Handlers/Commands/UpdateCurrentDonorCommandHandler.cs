@@ -50,18 +50,18 @@ public class UpdateCurrentDonorCommandHandler : IRequestHandler<UpdateCurrentDon
 			};
 
 
-		if (request.Channels != null)
+		if (request.PreferredChannels != null)
 		{
 			donor.Preference.Channels.Clear();
 
-			foreach (var ch in request.Channels.Distinct())
+			foreach (var ch in request.PreferredChannels.Distinct())
 			{
 				donor.Preference.Channels.Add(new NotificationChannel
 				{
 					Channel = ch,
 				});
 			}
-			_logger.LogInformation("Notification channels updated: {Channels}", string.Join(", ", request.Channels));
+			_logger.LogInformation("Notification channels updated: {Channels}", string.Join(", ", request.PreferredChannels));
 		}
 
 		await _donorRepository.UpdateAsync(donor, cancellationToken);

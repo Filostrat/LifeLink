@@ -25,16 +25,16 @@ public class MappingProfile : Profile
 		CreateMap<BloodType, BloodTypeDTO>();
 
 		CreateMap<Donor, DonorResponseDTO>()
-			.ForMember(dest => dest.Channels, opt => opt.MapFrom(src =>
+			.ForMember(dest => dest.PreferredChannels, opt => opt.MapFrom(src =>
 						   src.Preference != null
 						   ? src.Preference.Channels.Select(c => c.Channel)
 						   : Enumerable.Empty<NotificationChannelEnum>()));
 
 		CreateMap<UpdateCurrentDonorCommand, UpdateDonorRequestDTO>()
 			.ForMember(d => d.PreferredChannels,
-					   opt => opt.MapFrom(src => src.Channels ?? Enumerable.Empty<NotificationChannelEnum>()))
+					   opt => opt.MapFrom(src => src.PreferredChannels ?? Enumerable.Empty<NotificationChannelEnum>()))
 			.ReverseMap()
-			.ForMember(d => d.Channels,
+			.ForMember(d => d.PreferredChannels,
 					   opt => opt.MapFrom(src => src.PreferredChannels ?? new List<NotificationChannelEnum>()));
 
 		CreateMap<NotificationChannelEnum, NotificationPreferenceDTO>()
