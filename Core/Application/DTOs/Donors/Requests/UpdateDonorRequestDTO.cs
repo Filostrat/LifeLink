@@ -1,4 +1,7 @@
-﻿namespace Application.DTOs.Donors.Requests;
+﻿using Application.DTOs.Notifications;
+using Domain;
+
+namespace Application.DTOs.Donors.Requests;
 
 public class UpdateDonorRequestDTO
 {
@@ -15,4 +18,6 @@ public class UpdateDonorRequestDTO
 
 	public double? Latitude { get; set; }
 	public double? Longitude { get; set; }
+
+	public ICollection<NotificationChannelEnum> PreferredChannels { get; set; } = new List<NotificationChannelEnum>();
 }

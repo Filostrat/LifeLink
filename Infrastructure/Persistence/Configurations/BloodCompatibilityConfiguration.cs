@@ -13,7 +13,6 @@ public class BloodCompatibilityConfiguration : IEntityTypeConfiguration<BloodCom
 	{
 		builder.HasKey(bc => bc.Id);
 
-
 		builder.HasOne(bc => bc.FromBloodType)
 			.WithMany()
 			.HasForeignKey(bc => bc.FromBloodTypeId)
@@ -40,33 +39,39 @@ public class BloodCompatibilityConfiguration : IEntityTypeConfiguration<BloodCom
 			});
 		}
 
-		AddCompatibility("O-", "O-");
-		AddCompatibility("O-", "O+");
-		AddCompatibility("O-", "A-");
-		AddCompatibility("O-", "A+");
-		AddCompatibility("O-", "B-");
-		AddCompatibility("O-", "B+");
-		AddCompatibility("O-", "AB-");
-		AddCompatibility("O-", "AB+");
-		AddCompatibility("O+", "O+");
-		AddCompatibility("O+", "A+");
-		AddCompatibility("O+", "B+");
-		AddCompatibility("O+", "AB+");
-		AddCompatibility("A-", "A-");
-		AddCompatibility("A-", "A+");
-		AddCompatibility("A-", "AB-");
-		AddCompatibility("A-", "AB+");
-		AddCompatibility("A+", "A+");
-		AddCompatibility("A+", "AB+");
-		AddCompatibility("B-", "B-");
-		AddCompatibility("B-", "B+");
-		AddCompatibility("B-", "AB-");
-		AddCompatibility("B-", "AB+");
-		AddCompatibility("B+", "B+");
-		AddCompatibility("B+", "AB+");
-		AddCompatibility("AB-", "AB-");
-		AddCompatibility("AB-", "AB+");
-		AddCompatibility("AB+", "AB+");
+		AddCompatibility("I (0) Rh−", "I (0) Rh−");
+		AddCompatibility("I (0) Rh−", "I (0) Rh+");
+		AddCompatibility("I (0) Rh−", "II (A) Rh−");
+		AddCompatibility("I (0) Rh−", "II (A) Rh+");
+		AddCompatibility("I (0) Rh−", "III (B) Rh−");
+		AddCompatibility("I (0) Rh−", "III (B) Rh+");
+		AddCompatibility("I (0) Rh−", "IV (AB) Rh−");
+		AddCompatibility("I (0) Rh−", "IV (AB) Rh+");
+
+		AddCompatibility("I (0) Rh+", "I (0) Rh+");
+		AddCompatibility("I (0) Rh+", "II (A) Rh+");
+		AddCompatibility("I (0) Rh+", "III (B) Rh+");
+		AddCompatibility("I (0) Rh+", "IV (AB) Rh+");
+
+		AddCompatibility("II (A) Rh−", "II (A) Rh−");
+		AddCompatibility("II (A) Rh−", "II (A) Rh+");
+		AddCompatibility("II (A) Rh−", "IV (AB) Rh−");
+		AddCompatibility("II (A) Rh−", "IV (AB) Rh+");
+
+		AddCompatibility("II (A) Rh+", "II (A) Rh+");
+		AddCompatibility("II (A) Rh+", "IV (AB) Rh+");
+
+		AddCompatibility("III (B) Rh−", "III (B) Rh−");
+		AddCompatibility("III (B) Rh−", "III (B) Rh+");
+		AddCompatibility("III (B) Rh−", "IV (AB) Rh−");
+		AddCompatibility("III (B) Rh−", "IV (AB) Rh+");
+
+		AddCompatibility("III (B) Rh+", "III (B) Rh+");
+		AddCompatibility("III (B) Rh+", "IV (AB) Rh+");
+
+		AddCompatibility("IV (AB) Rh−", "IV (AB) Rh−");
+		AddCompatibility("IV (AB) Rh−", "IV (AB) Rh+");
+		AddCompatibility("IV (AB) Rh+", "IV (AB) Rh+");
 
 		builder.HasData(compatibilityList);
 	}

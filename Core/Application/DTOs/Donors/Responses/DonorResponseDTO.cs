@@ -1,4 +1,6 @@
-﻿namespace Application.DTOs.Donors.Responses;
+﻿using Domain;
+
+namespace Application.DTOs.Donors.Responses;
 
 public class DonorResponseDTO
 {
@@ -17,4 +19,6 @@ public class DonorResponseDTO
 	public string? PostalCode { get; set; }
 	public double Latitude { get; set; }
 	public double Longitude { get; set; }
+
+	public IEnumerable<NotificationChannelEnum> Channels { get; set; } = new List<NotificationChannelEnum>();
 }

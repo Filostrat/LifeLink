@@ -1,4 +1,6 @@
 ﻿using Application.DTOs.Donors.Responses;
+using Application.DTOs.Notifications;
+using Domain;
 using MediatR;
 using NetTopologySuite.Geometries;
 
@@ -19,4 +21,6 @@ public class UpdateCurrentDonorCommand : IRequest<DonorResponseDTO>
 	public string? PostalCode { get; set; }
 	public double? Latitude { get; set; }
 	public double? Longitude { get; set; }
+
+	public IEnumerable<NotificationChannelEnum>? Channels { get; set; }
 }

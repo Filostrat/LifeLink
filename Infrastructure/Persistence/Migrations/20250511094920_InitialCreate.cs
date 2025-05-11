@@ -109,7 +109,7 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DonationRequestNotifications",
+                name: "DonationRequestNotification",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -121,12 +121,50 @@ namespace Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DonationRequestNotifications", x => x.Id);
+                    table.PrimaryKey("PK_DonationRequestNotification", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DonationRequestNotifications_DonationRequests_DonationRequestId",
+                        name: "FK_DonationRequestNotification_DonationRequests_DonationRequestId",
                         column: x => x.DonationRequestId,
                         principalTable: "DonationRequests",
                         principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "NotificationPreferences",
+                columns: table => new
+                {
+                    DonorId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NotificationPreferences", x => x.DonorId);
+                    table.ForeignKey(
+                        name: "FK_NotificationPreferences_Donors_DonorId",
+                        column: x => x.DonorId,
+                        principalTable: "Donors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "NotificationChannels",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NotificationPreferenceId = table.Column<int>(type: "int", nullable: false),
+                    Channel = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NotificationChannels", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_NotificationChannels_NotificationPreferences_NotificationPreferenceId",
+                        column: x => x.NotificationPreferenceId,
+                        principalTable: "NotificationPreferences",
+                        principalColumn: "DonorId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -135,14 +173,14 @@ namespace Persistence.Migrations
                 columns: new[] { "Id", "Type" },
                 values: new object[,]
                 {
-                    { 1, "O-" },
-                    { 2, "O+" },
-                    { 3, "A-" },
-                    { 4, "A+" },
-                    { 5, "B-" },
-                    { 6, "B+" },
-                    { 7, "AB-" },
-                    { 8, "AB+" }
+                    { 1, "I (0) Rh−" },
+                    { 2, "I (0) Rh+" },
+                    { 3, "II (A) Rh−" },
+                    { 4, "II (A) Rh+" },
+                    { 5, "III (B) Rh−" },
+                    { 6, "III (B) Rh+" },
+                    { 7, "IV (AB) Rh−" },
+                    { 8, "IV (AB) Rh+" }
                 });
 
             migrationBuilder.InsertData(
@@ -190,8 +228,8 @@ namespace Persistence.Migrations
                 column: "ToBloodTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DonationRequestNotifications_DonationRequestId",
-                table: "DonationRequestNotifications",
+                name: "IX_DonationRequestNotification_DonationRequestId",
+                table: "DonationRequestNotification",
                 column: "DonationRequestId");
 
             migrationBuilder.CreateIndex(
@@ -209,6 +247,11 @@ namespace Persistence.Migrations
                 table: "Donors",
                 column: "Email",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_NotificationChannels_NotificationPreferenceId",
+                table: "NotificationChannels",
+                column: "NotificationPreferenceId");
         }
 
         /// <inheritdoc />
@@ -218,13 +261,19 @@ namespace Persistence.Migrations
                 name: "BloodCompatibilities");
 
             migrationBuilder.DropTable(
-                name: "DonationRequestNotifications");
+                name: "DonationRequestNotification");
 
             migrationBuilder.DropTable(
-                name: "Donors");
+                name: "NotificationChannels");
 
             migrationBuilder.DropTable(
                 name: "DonationRequests");
+
+            migrationBuilder.DropTable(
+                name: "NotificationPreferences");
+
+            migrationBuilder.DropTable(
+                name: "Donors");
 
             migrationBuilder.DropTable(
                 name: "BloodTypes");

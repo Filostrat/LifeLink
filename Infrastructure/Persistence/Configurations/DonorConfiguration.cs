@@ -24,5 +24,10 @@ public class DonorConfiguration : IEntityTypeConfiguration<Donor>
 			   .WithMany()
 			   .HasForeignKey(d => d.BloodTypeId)
 			   .IsRequired();
+
+		builder
+			.HasOne(d => d.Preference)
+			.WithOne(p => p.Donor)
+			.HasForeignKey<NotificationPreference>(p => p.DonorId);
 	}
-}
+}	

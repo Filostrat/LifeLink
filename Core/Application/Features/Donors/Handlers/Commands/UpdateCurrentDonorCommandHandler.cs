@@ -3,7 +3,7 @@ using Application.DTOs.Donors.Responses;
 using Application.Exceptions;
 using Application.Features.Donors.Requests.Commands;
 using AutoMapper;
-
+using Domain;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using NetTopologySuite.Geometries;
@@ -41,6 +41,27 @@ public class UpdateCurrentDonorCommandHandler : IRequestHandler<UpdateCurrentDon
 		{
 			donor.Location = new Point(request.Longitude.Value, request.Latitude.Value) { SRID = 4326 };
 			_logger.LogInformation("Updated donor location to Latitude: {Latitude}, Longitude: {Longitude}", request.Latitude, request.Longitude);
+		}
+
+
+		donor.Preference ??= new NotificationPreference
+			{
+				Donor = donor
+			};
+
+
+		if (request.Channels != null)
+		{
+			donor.Preference.Channels.Clear();
+
+			foreach (var ch in request.Channels.Distinct())
+			{
+				donor.Preference.Channels.Add(new NotificationChannel
+				{
+					Channel = ch,
+				});
+			}
+			_logger.LogInformation("Notification channels updated: {Channels}", string.Join(", ", request.Channels));
 		}
 
 		await _donorRepository.UpdateAsync(donor, cancellationToken);

@@ -26,4 +26,3 @@ public class KafkaMessageBus : IMessageBus
 		return await _producer.SendAsync(_kafkaSettings.Value.Topic, JsonConvert.SerializeObject(message), cancellationToken);
 	}
 }
-
