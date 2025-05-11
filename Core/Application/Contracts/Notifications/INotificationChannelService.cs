@@ -1,15 +1,11 @@
-﻿using Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Application.DTOs.Notifications;
+using Domain;
 
 namespace Application.Contracts.Notifications;
 
-public interface INotificationChannelService
+public interface IDonationRequestNotificationChannelService
 {
 	NotificationChannelEnum ChannelName { get; }
 
-	Task PublishAsync<T>(T message, CancellationToken cancellationToken);
+	Task PublishAsync(DonationNotificationInfoDTO message, CancellationToken cancellationToken);
 }

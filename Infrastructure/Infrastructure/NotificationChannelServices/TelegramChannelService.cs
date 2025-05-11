@@ -1,5 +1,5 @@
 ﻿using Application.Contracts.Notifications;
-
+using Application.DTOs.Notifications;
 using Domain;
 using Domain.Settings;
 
@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 
 namespace Infrastructure.NotificationChannelServices;
 
-public class TelegramChannelService : INotificationChannelService
+public class TelegramChannelService : IDonationRequestNotificationChannelService
 {
 	public NotificationChannelEnum ChannelName => NotificationChannelEnum.Telegram;
 
@@ -27,6 +27,6 @@ public class TelegramChannelService : INotificationChannelService
 		_topic = settings.Value.TopicTelegram;
 	}
 
-	public Task PublishAsync<T>(T message, CancellationToken ct) =>
+	public Task PublishAsync(DonationNotificationInfoDTO message, CancellationToken ct) =>
 		_producer.SendAsync(_topic, JsonConvert.SerializeObject(message), ct);
 }

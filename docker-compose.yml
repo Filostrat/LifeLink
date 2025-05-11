@@ -13,6 +13,17 @@ services:
     networks:
       - mynetwork
 
+  emailservice:
+    container_name: email_background_service
+    restart: always
+    build:
+      context: .
+      dockerfile: BackgroundServices/EmailBackgroundService/Dockerfile
+    env_file:
+      - ./BackgroundServices/EmailBackgroundService/.env
+    networks:
+      - mynetwork
+
   api:
     depends_on:
       kafka:

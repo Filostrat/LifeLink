@@ -10,8 +10,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Domain.Settings;
-using Application.Contracts.Notifications;
-using Infrastructure.NotificationChannelServices;
 
 
 namespace Infrastructure;
@@ -25,10 +23,7 @@ public static class InfrastructureServicesRegistration
 		services.AddTransient<IEmailSender, EmailSender>();
 		services.AddTransient<IMessageBus, KafkaMessageBus>();
 		services.AddTransient<IEmailTemplateBuilder, EmailTemplateBuilder>();
-		services.AddTransient<INotificationChannelService, EmailChannelService>();
-		services.AddTransient<INotificationChannelService, TelegramChannelService>();
 		services.AddKafkaFactory();
-		services.AddHostedService<EmailConsumerHostedService>();
 
 		services.Configure<KafkaSettings>(configuration.GetSection("KafkaConfiguration"));
 
