@@ -23,4 +23,6 @@ public class Donor
 	public string? City { get; set; }
 	public string? PostalCode { get; set; }
 	public Point? Location { get; set; }
+
+	public NotificationPreference Preference { get; set; } = null!;
 }

@@ -8,6 +8,8 @@ services:
     ports:
       - "1433:1433"
     container_name: mssql
+    volumes:
+      - mssql-data:/var/opt/mssql
     networks:
       - mynetwork
 
@@ -104,6 +106,8 @@ networks:
     driver: bridge
 
 volumes:
+  mssql-data:
+    external: true
   zoo-data:
   zoo-log:
   kafka-data:

@@ -230,42 +230,42 @@ namespace Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            Type = "O-"
+                            Type = "I (0) Rh−"
                         },
                         new
                         {
                             Id = 2,
-                            Type = "O+"
+                            Type = "I (0) Rh+"
                         },
                         new
                         {
                             Id = 3,
-                            Type = "A-"
+                            Type = "II (A) Rh−"
                         },
                         new
                         {
                             Id = 4,
-                            Type = "A+"
+                            Type = "II (A) Rh+"
                         },
                         new
                         {
                             Id = 5,
-                            Type = "B-"
+                            Type = "III (B) Rh−"
                         },
                         new
                         {
                             Id = 6,
-                            Type = "B+"
+                            Type = "III (B) Rh+"
                         },
                         new
                         {
                             Id = 7,
-                            Type = "AB-"
+                            Type = "IV (AB) Rh−"
                         },
                         new
                         {
                             Id = 8,
-                            Type = "AB+"
+                            Type = "IV (AB) Rh+"
                         });
                 });
 
@@ -333,7 +333,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("DonationRequestId");
 
-                    b.ToTable("DonationRequestNotifications");
+                    b.ToTable("DonationRequestNotification");
                 });
 
             modelBuilder.Entity("Domain.Donor", b =>
@@ -392,6 +392,41 @@ namespace Persistence.Migrations
                     b.ToTable("Donors");
                 });
 
+            modelBuilder.Entity("Domain.NotificationChannel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Channel")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NotificationPreferenceId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NotificationPreferenceId");
+
+                    b.ToTable("NotificationChannels");
+                });
+
+            modelBuilder.Entity("Domain.NotificationPreference", b =>
+                {
+                    b.Property<int>("DonorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.HasKey("DonorId");
+
+                    b.ToTable("NotificationPreferences");
+                });
+
             modelBuilder.Entity("Domain.BloodCompatibility", b =>
                 {
                     b.HasOne("Domain.BloodType", "FromBloodType")
@@ -444,9 +479,42 @@ namespace Persistence.Migrations
                     b.Navigation("BloodType");
                 });
 
+            modelBuilder.Entity("Domain.NotificationChannel", b =>
+                {
+                    b.HasOne("Domain.NotificationPreference", "Preference")
+                        .WithMany("Channels")
+                        .HasForeignKey("NotificationPreferenceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Preference");
+                });
+
+            modelBuilder.Entity("Domain.NotificationPreference", b =>
+                {
+                    b.HasOne("Domain.Donor", "Donor")
+                        .WithOne("Preference")
+                        .HasForeignKey("Domain.NotificationPreference", "DonorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Donor");
+                });
+
             modelBuilder.Entity("Domain.DonationRequest", b =>
                 {
                     b.Navigation("Notifications");
+                });
+
+            modelBuilder.Entity("Domain.Donor", b =>
+                {
+                    b.Navigation("Preference")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.NotificationPreference", b =>
+                {
+                    b.Navigation("Channels");
                 });
 #pragma warning restore 612, 618
         }

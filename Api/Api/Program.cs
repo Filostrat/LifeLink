@@ -9,6 +9,7 @@ using Identity;
 using Infrastructure;
 using Persistence;
 using Serilog;
+using System.Text.Json.Serialization;
 
 
 
@@ -22,7 +23,9 @@ builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Confi
 
 builder.Services.AddScoped<IHttpContextService, HttpContextService>();
 
-builder.Services.AddControllers().AddNewtonsoftJson();
+builder.Services.AddControllers().AddNewtonsoftJson()
+	.AddJsonOptions(opts =>
+		opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
 builder.Services.AddHttpContextAccessor();
 
