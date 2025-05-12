@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs.Notifications;
 
-public class DonationNotificationInfoDTO
+public class DonationNotificationMessageInfo
 {
 	public string? City { get; set; }
 	public string? Email { get; set; }

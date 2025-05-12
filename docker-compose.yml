@@ -14,6 +14,9 @@ services:
       - mynetwork
 
   emailservice:
+    depends_on:
+      kafka:
+        condition: service_healthy
     container_name: email_background_service
     restart: always
     build:
@@ -21,6 +24,20 @@ services:
       dockerfile: BackgroundServices/EmailBackgroundService/Dockerfile
     env_file:
       - ./BackgroundServices/EmailBackgroundService/.env
+    networks:
+      - mynetwork
+
+  teleframservice:
+    depends_on:
+      kafka:
+        condition: service_healthy
+    container_name: telefram_background_service
+    restart: always
+    build:
+      context: .
+      dockerfile: BackgroundServices/TelegramBackgroundService/Dockerfile
+    env_file:
+      - ./BackgroundServices/TelegramBackgroundService/.env
     networks:
       - mynetwork
 

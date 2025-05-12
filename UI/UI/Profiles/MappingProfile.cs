@@ -13,8 +13,6 @@ public class MappingProfile : Profile
 	public MappingProfile()
 	{
 		CreateMap<RegisterVM, RegisterAccountRequestDTO>().ReverseMap();
-		CreateMap<DonorVM, DonorResponseDTO>().ReverseMap()
-			.ForMember(dest => dest.LastDonation, opt => opt.MapFrom(src => src.LastDonation.Value.LocalDateTime));
 
 		CreateMap<UpdateDonorRequestDTO, DonorVM>().ReverseMap();
 		CreateMap<CreateDonationRequestDTO, CreateDonationRequestVM>().ReverseMap();
@@ -30,5 +28,39 @@ public class MappingProfile : Profile
 			.ForMember(dest => dest.CreationDateTime, opt => opt.MapFrom(src => src.CreationDateTime.Value.UtcDateTime))
 			.ReverseMap()
 			.ForMember(dest => dest.CreationDateTime, opt => opt.MapFrom(src => new DateTimeOffset(src.CreationDateTime)));
+
+		CreateMap<DonorVM, UpdateDonorRequestDTO>()
+			.ForMember(dest => dest.PreferredChannels,
+					   opt => opt.MapFrom(src
+						   => src.PreferredChannels
+								 .Select(i => (NotificationChannelEnum)i)
+								 .ToArray()));
+
+		CreateMap<DonorResponseDTO, DonorVM>()
+			.ForMember(
+				dest => dest.LastDonation,
+				opt => opt.MapFrom(src =>
+							src.LastDonation.HasValue
+								? src.LastDonation.Value.LocalDateTime
+								: (DateTime?)null
+				)
+			)
+			.ForMember(
+				dest => dest.PreferredChannels,
+				opt => opt.MapFrom(src =>
+							src.PreferredChannels.Select(c => (int)c).ToArray()
+				)
+			)
+			.ReverseMap()
+			.ForMember(
+				dest => dest.LastDonation,
+				opt => opt.MapFrom(src => new DateTimeOffset(src.LastDonation.Value))
+			)
+			.ForMember(
+				dest => dest.PreferredChannels,
+				opt => opt.MapFrom(src =>
+							src.PreferredChannels.Select(i => (NotificationChannelEnum)i).ToArray()
+				)
+			);
 	}
 }

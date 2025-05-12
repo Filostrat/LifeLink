@@ -31,7 +31,7 @@ public class EmailChannelService : IDonationRequestNotificationChannelService
 		_emailTemplateBuilder = emailTemplateBuilder;
 	}
 
-	public async Task PublishAsync(DonationNotificationInfoDTO message, CancellationToken ct)
+	public async Task PublishAsync(DonationNotificationMessageInfo message, CancellationToken ct)
 	{
 		var emailDto = await _emailTemplateBuilder
 			.CreateDonationRequestEmail(

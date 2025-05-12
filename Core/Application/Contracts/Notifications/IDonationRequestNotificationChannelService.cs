@@ -7,5 +7,5 @@ public interface IDonationRequestNotificationChannelService
 {
 	NotificationChannelEnum ChannelName { get; }
 
-	Task PublishAsync(DonationNotificationInfoDTO message, CancellationToken cancellationToken);
+	Task PublishAsync(DonationNotificationMessageInfo message, CancellationToken cancellationToken);
 }

@@ -1,4 +1,7 @@
-﻿namespace UI.Models.Donors;
+﻿using System.Text;
+using UI.Services.Base;
+
+namespace UI.Models.Donors;
 
 public class DonorVM
 {
@@ -17,4 +20,6 @@ public class DonorVM
 	public string? PostalCode { get; set; }
 	public double Latitude { get; set; }
 	public double Longitude { get; set; }
+
+	public int[] PreferredChannels { get; set; } = [];
 }

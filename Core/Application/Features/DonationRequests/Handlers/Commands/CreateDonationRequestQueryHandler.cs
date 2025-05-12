@@ -68,7 +68,7 @@ public class CreateDonationRequestCommandHandler: IRequestHandler<CreateDonation
 					continue;
 				}
 
-				var donationNotificationInfoDTO = new DonationNotificationInfoDTO
+				var donationNotificationInfoDTO = new DonationNotificationMessageInfo
 				{
 					Latitude = request.Latitude,
 					Longitude = request.Longitude,

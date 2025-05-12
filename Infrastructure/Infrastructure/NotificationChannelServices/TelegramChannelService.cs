@@ -27,6 +27,6 @@ public class TelegramChannelService : IDonationRequestNotificationChannelService
 		_topic = settings.Value.TopicTelegram;
 	}
 
-	public Task PublishAsync(DonationNotificationInfoDTO message, CancellationToken ct) =>
+	public Task PublishAsync(DonationNotificationMessageInfo message, CancellationToken ct) =>
 		_producer.SendAsync(_topic, JsonConvert.SerializeObject(message), ct);
 }
