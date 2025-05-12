@@ -1,4 +1,5 @@
-﻿@model DonorVM
+﻿@using UI.Services.Base
+@model DonorVM
 @{
     Layout = "_Layout";
     ViewData["Title"] = "Мій профіль";
@@ -56,6 +57,53 @@
 
                 <input asp-for="Latitude" type="hidden" id="lat-input" />
                 <input asp-for="Longitude" type="hidden" id="lng-input" />
+
+                <div class="mb-3">
+                    <label class="form-label">Канали оповіщень</label>
+                    <div class="form-check">
+                        <input class="form-check-input"
+                               type="checkbox"
+                               name="PreferredChannels"
+                               value="0"
+                               id="notifyEmail"
+                        @(Model.PreferredChannels.Contains(0) ? "checked" : "") />
+                        <label class="form-check-label" for="notifyEmail">
+                            Email
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input"
+                               type="checkbox"
+                               name="PreferredChannels"
+                               value="1"
+                               id="notifyTelegram"
+                        @(Model.PreferredChannels.Contains(1) ? "checked" : "") />
+                        <label class="form-check-label" for="notifyTelegram">
+                            Telegram
+                        </label>
+                    </div>
+                    <span asp-validation-for="PreferredChannels" class="text-danger"></span>
+                </div>
+
+                @{
+                    var hasTg = Model.PreferredChannels.Contains(1);
+                    var encodedEmail = !string.IsNullOrEmpty(Model.Email)
+                    ? Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(Model.Email))
+                    : null;
+                    var telegramLink = encodedEmail != null
+                    ? $"https://t.me/Life_Link_Bot?start={encodedEmail}"
+                    : null;
+                }
+
+                @if (hasTg && telegramLink != null)
+                {
+                    <div class="mb-3">
+                        <p>Щоб отримувати повідомлення у Telegram, перейдіть за посиланням:</p>
+                        <a href="@telegramLink" target="_blank">
+                            Підписатися на повідомлення через Telegram
+                        </a>
+                    </div>
+                }
 
                 <div class="text-center mt-4">
                     <button type="submit" class="btn btn-danger">Зберегти зміни</button>

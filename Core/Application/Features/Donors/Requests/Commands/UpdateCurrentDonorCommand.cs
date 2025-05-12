@@ -22,5 +22,5 @@ public class UpdateCurrentDonorCommand : IRequest<DonorResponseDTO>
 	public double? Latitude { get; set; }
 	public double? Longitude { get; set; }
 
-	public IEnumerable<NotificationChannelEnum>? Channels { get; set; }
+	public IEnumerable<NotificationChannelEnum>? PreferredChannels { get; set; }
 }

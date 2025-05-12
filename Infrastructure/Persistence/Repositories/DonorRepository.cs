@@ -35,6 +35,8 @@ public class DonorRepository : GenericRepository<Donor>, IDonorRepository
 
 		var donors = await _dbContext.Donors
 			.Include(d => d.BloodType)
+			.Include(d => d.Preference)
+			.ThenInclude(p => p.Channels)
 			.Where(d =>
 				_dbContext.BloodCompatibilities.Any(c =>
 					c.FromBloodTypeId == d.BloodTypeId &&

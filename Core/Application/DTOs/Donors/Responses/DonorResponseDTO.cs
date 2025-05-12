@@ -20,5 +20,5 @@ public class DonorResponseDTO
 	public double Latitude { get; set; }
 	public double Longitude { get; set; }
 
-	public IEnumerable<NotificationChannelEnum> Channels { get; set; } = new List<NotificationChannelEnum>();
+	public IEnumerable<NotificationChannelEnum> PreferredChannels { get; set; } = new List<NotificationChannelEnum>();
 }

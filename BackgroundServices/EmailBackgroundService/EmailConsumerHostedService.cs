@@ -1,16 +1,19 @@
-﻿using Application.Contracts.Infrastructure;
+using Application.Contracts.Infrastructure;
+
 using Domain;
+
 using Domain.Settings;
+
 using Kafka.Base.Interfaces;
+
 using Kafka.Factories.Interfaces;
 
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 using Newtonsoft.Json;
 
-namespace Infrastructure.Mail;
+
+namespace EmailBackgroundService;
 
 public class EmailConsumerHostedService : BackgroundService
 {
@@ -32,8 +35,8 @@ public class EmailConsumerHostedService : BackgroundService
 
 	protected override async Task ExecuteAsync(CancellationToken cancellationToken)
 	{
-		_consumer.Subscribe(_kafkaSettings.Value.Topic);
-		_logger.LogInformation("Subscribed to topic {Topic}", _kafkaSettings.Value.Topic);
+		_consumer.Subscribe(_kafkaSettings.Value.TopicEmail);
+		_logger.LogInformation("Subscribed to topic {Topic}", _kafkaSettings.Value.TopicEmail);
 
 		while (!cancellationToken.IsCancellationRequested)
 		{
@@ -56,4 +59,3 @@ public class EmailConsumerHostedService : BackgroundService
 		}
 	}
 }
-

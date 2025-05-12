@@ -33,6 +33,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kafka", "Infrastructure\Kaf
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Core\Domain\Domain.csproj", "{A5DE508D-3FED-4A92-8F48-FE0C4218015D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BackgroundServices", "BackgroundServices", "{8C504E5F-F69A-4C50-A412-14402E69992D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailBackgroundService", "BackgroundServices\EmailBackgroundService\EmailBackgroundService.csproj", "{F107A4C3-DC84-44FB-9E12-5339E142691D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramBackgroundService", "BackgroundServices\TelegramBackgroundService\TelegramBackgroundService.csproj", "{7DFDB736-47C9-44DE-A107-DD8F598D4CF8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +77,14 @@ Global
 		{A5DE508D-3FED-4A92-8F48-FE0C4218015D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5DE508D-3FED-4A92-8F48-FE0C4218015D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5DE508D-3FED-4A92-8F48-FE0C4218015D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F107A4C3-DC84-44FB-9E12-5339E142691D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F107A4C3-DC84-44FB-9E12-5339E142691D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F107A4C3-DC84-44FB-9E12-5339E142691D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F107A4C3-DC84-44FB-9E12-5339E142691D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DFDB736-47C9-44DE-A107-DD8F598D4CF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DFDB736-47C9-44DE-A107-DD8F598D4CF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DFDB736-47C9-44DE-A107-DD8F598D4CF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DFDB736-47C9-44DE-A107-DD8F598D4CF8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -84,5 +98,7 @@ Global
 		{53608354-29CB-455A-BE9A-98CBF44A2037} = {DB5C283B-0CD9-419D-A738-2D49D7305986}
 		{A9B3AE4A-008A-4EFB-BEC8-3401C825A87C} = {DB5C283B-0CD9-419D-A738-2D49D7305986}
 		{A5DE508D-3FED-4A92-8F48-FE0C4218015D} = {479D531B-FF08-40BB-938D-938593BBA4B2}
+		{F107A4C3-DC84-44FB-9E12-5339E142691D} = {8C504E5F-F69A-4C50-A412-14402E69992D}
+		{7DFDB736-47C9-44DE-A107-DD8F598D4CF8} = {8C504E5F-F69A-4C50-A412-14402E69992D}
 	EndGlobalSection
 EndGlobal

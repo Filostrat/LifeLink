@@ -13,7 +13,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DonorDbContext))]
-    [Migration("20250511094920_InitialCreate")]
+    [Migration("20250511193115_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -317,6 +317,9 @@ namespace Persistence.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Channel")
+                        .HasColumnType("int");
 
                     b.Property<int>("DonationRequestId")
                         .HasColumnType("int");

@@ -315,6 +315,9 @@ namespace Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("Channel")
+                        .HasColumnType("int");
+
                     b.Property<int>("DonationRequestId")
                         .HasColumnType("int");
 

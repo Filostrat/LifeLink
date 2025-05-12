@@ -2,11 +2,8 @@
 using Domain.Settings;
 using Kafka.Base.Interfaces;
 using Kafka.Factories.Interfaces;
-
 using Microsoft.Extensions.Options;
-
 using Newtonsoft.Json;
-
 
 namespace Infrastructure.Mail;
 
@@ -23,6 +20,6 @@ public class KafkaMessageBus : IMessageBus
 
 	public async Task<bool> PublishAsync<T>(T message, CancellationToken cancellationToken)
 	{
-		return await _producer.SendAsync(_kafkaSettings.Value.Topic, JsonConvert.SerializeObject(message), cancellationToken);
+		return await _producer.SendAsync(_kafkaSettings.Value.TopicEmail, JsonConvert.SerializeObject(message), cancellationToken);
 	}
 }
