@@ -6,4 +6,3 @@ public class DonationRequestNotificationDTO
 	public string Email { get; set; }
 	public DateTime SentAt { get; set; }
 }
-

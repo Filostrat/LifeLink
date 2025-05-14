@@ -28,7 +28,9 @@ public class MappingProfile : Profile
 			.ForMember(dest => dest.PreferredChannels, opt => opt.MapFrom(src =>
 						   src.Preference != null
 						   ? src.Preference.Channels.Select(c => c.Channel)
-						   : Enumerable.Empty<NotificationChannelEnum>()));
+						   : Enumerable.Empty<NotificationChannelEnum>()))
+			.ForMember(dest => dest.Longitude, opt => opt.MapFrom(src=> src.Location.Coordinate.X))
+			.ForMember(dest => dest.Latitude, opt => opt.MapFrom(src=> src.Location.Coordinate.Y));
 
 		CreateMap<UpdateCurrentDonorCommand, UpdateDonorRequestDTO>()
 			.ForMember(d => d.PreferredChannels,
@@ -55,8 +57,22 @@ public class MappingProfile : Profile
 		CreateMap<CreateDonationRequestCommand, DonationRequest>()
 			.ForMember(dest => dest.CreationDateTime, opt => opt.MapFrom(_ => DateTime.UtcNow));
 
+
 		CreateMap<DonationRequest, DonationRequestDTO>()
-			.ForMember(dest => dest.BloodTypeName, opt => opt.MapFrom(src => src.BloodType.Type));
+			.ForMember(dest => dest.BloodTypeId, opt => opt.MapFrom(src =>
+				src.DonationRequestBloodTypes
+				   .Select(link => link.BloodTypeId)
+				   .ToList()
+			))
+			.ForMember(dto => dto.BloodTypeName, opt => opt.MapFrom(src =>
+				src.DonationRequestBloodTypes
+				   .Select(link => link.BloodType.Type)
+				   .ToList()));
+
+		CreateMap<CreateDonationRequestCommand, DonationRequest>()
+		   .ForMember(d => d.DonationRequestBloodTypes, opt => opt.MapFrom(src =>
+			   src.BloodTypeId.Select(bt => new DonationRequestBloodType { BloodTypeId = bt })))
+		   .ForMember(d => d.CreationDateTime, opt => opt.MapFrom(_ => DateTime.UtcNow));
 
 		CreateMap<DonationRequestNotification, DonationRequestNotificationDTO>();
 	}

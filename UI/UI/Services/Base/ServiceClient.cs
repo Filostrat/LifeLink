@@ -1094,10 +1094,13 @@ namespace UI.Services.Base
     public partial class CreateDonationRequestDTO
     {
         [Newtonsoft.Json.JsonProperty("bloodTypeId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int? BloodTypeId { get; set; }
+        public System.Collections.Generic.ICollection<int> BloodTypeId { get; set; }
 
         [Newtonsoft.Json.JsonProperty("city", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string City { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("message", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Message { get; set; }
 
         [Newtonsoft.Json.JsonProperty("latitude", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public double? Latitude { get; set; }
@@ -1114,16 +1117,19 @@ namespace UI.Services.Base
         public int? Id { get; set; }
 
         [Newtonsoft.Json.JsonProperty("bloodTypeId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int? BloodTypeId { get; set; }
+        public System.Collections.Generic.ICollection<int> BloodTypeId { get; set; }
 
         [Newtonsoft.Json.JsonProperty("bloodTypeName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string BloodTypeName { get; set; }
+        public System.Collections.Generic.ICollection<string> BloodTypeName { get; set; }
 
         [Newtonsoft.Json.JsonProperty("adminId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string AdminId { get; set; }
 
         [Newtonsoft.Json.JsonProperty("city", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string City { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("message", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Message { get; set; }
 
         [Newtonsoft.Json.JsonProperty("latitude", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public double? Latitude { get; set; }

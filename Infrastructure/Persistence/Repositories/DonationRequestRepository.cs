@@ -15,10 +15,11 @@ public class DonationRequestRepository : GenericRepository<DonationRequest>, IDo
 		_dbContext = dbContext;
 	}
 
-	public async Task<List<DonationRequest>> GetAllWithNotificationsAsync(CancellationToken cancellationToken,string adminId = null)
+	public async Task<List<DonationRequest>> GetAllWithNotificationsAsync(CancellationToken cancellationToken, string adminId = null)
 	{
 		var query = _dbContext.Set<DonationRequest>()
-			.Include(dr => dr.BloodType)
+			.Include(dr => dr.DonationRequestBloodTypes)
+				.ThenInclude(link => link.BloodType) 
 			.Include(dr => dr.Notifications)
 			.AsQueryable();
 
@@ -29,10 +30,12 @@ public class DonationRequestRepository : GenericRepository<DonationRequest>, IDo
 	}
 
 
+
 	public async Task<DonationRequest> GetWithIncludesAsync(int id, CancellationToken cancellationToken, string adminId = null)
 	{
 		var query = _dbContext.Set<DonationRequest>()
-			.Include(dr => dr.BloodType)
+			.Include(dr => dr.DonationRequestBloodTypes)
+				.ThenInclude(link => link.BloodType)
 			.Include(dr => dr.Notifications)
 			.AsQueryable();
 

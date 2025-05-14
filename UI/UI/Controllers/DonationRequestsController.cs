@@ -31,17 +31,24 @@ public class DonationRequestsController : Controller
 	{
 		var types = await _bloodTypeService.GetBloodTypes();
 
-		ViewBag.BloodTypes = new SelectList(types, "Id", "Type");
+		ViewBag.BloodTypes = types
+			.Select(t => new SelectListItem
+			{
+				Value = t.Id.ToString(),
+				Text = t.Type
+			})
+			.ToList();
 
 		return View(new CreateDonationRequestVM());
 	}
+
 
 	[HttpPost]
 	public async Task<ActionResult> Create(CreateDonationRequestVM createDonationRequestVM)
 	{
 		await _donationRequestService.CreateDonationRequest(createDonationRequestVM);
 
-		return View();
+		return RedirectToAction(nameof(Index));
 	}
 
 	[HttpGet]

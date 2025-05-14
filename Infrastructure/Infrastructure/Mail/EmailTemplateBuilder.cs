@@ -77,7 +77,7 @@ public class EmailTemplateBuilder : IEmailTemplateBuilder
 		};
 	}
 
-	public async Task<Email> CreateDonationRequestEmail(string email, string city, double latitude, double longitude)
+	public async Task<Email> CreateDonationRequestEmail(string email, string city, double latitude, double longitude,string message)
 	{
 		string googleLocationLink = $"https://www.google.com/maps/search/?api=1&query={latitude},{longitude}";
 
@@ -102,6 +102,9 @@ public class EmailTemplateBuilder : IEmailTemplateBuilder
               <td style=""padding:30px;color:#333333;"">
                 <p style=""font-size:16px;line-height:1.5;"">
                   В місті <strong>{HttpUtility.HtmlEncode(city)}</strong> потрібна саме твоя кров!
+                </p>
+                <p style=""font-size:16px;line-height:1.5;"">
+                  {message}
                 </p>
                 <p style=""text-align:center;margin:30px 0;"">
                   <a href=""{googleLocationLink}"" 

@@ -9,8 +9,10 @@ public class DonationRequestConfiguration : IEntityTypeConfiguration<DonationReq
 	public void Configure(EntityTypeBuilder<DonationRequest> builder)
 	{
 		builder.HasKey(dr => dr.Id);
-		builder.HasOne(dr => dr.BloodType)
-			   .WithMany()
-			   .HasForeignKey(dr => dr.BloodTypeId);
+
+		builder.HasMany(dr => dr.DonationRequestBloodTypes)
+			   .WithOne(link => link.DonationRequest)
+			   .HasForeignKey(link => link.DonationRequestId)
+			   .OnDelete(DeleteBehavior.Cascade);
 	}
 }

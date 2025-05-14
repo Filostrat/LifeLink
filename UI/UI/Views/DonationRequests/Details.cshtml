@@ -4,8 +4,10 @@
 }
 
 <dl class="row">
-    <dt class="col-sm-3">Тип крові</dt>
-    <dd class="col-sm-9">@Model.BloodTypeName</dd>
+
+
+    <dt class="col-sm-3">Типи крові</dt>
+    <dd class="col-sm-9">@String.Join(", ", @Model.BloodTypeName)</dd>
 
     <dt class="col-sm-3">Місто</dt>
     <dd class="col-sm-9">@Model.City</dd>

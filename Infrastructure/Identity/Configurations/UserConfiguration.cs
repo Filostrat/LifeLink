@@ -17,7 +17,7 @@ public class UserConfiguration : IEntityTypeConfiguration<IdentityUser>
 				 NormalizedEmail = "ADMIN@LOCALHOST.COM",
 				 UserName = "admin@localhost.com",
 				 NormalizedUserName = "ADMIN@LOCALHOST.COM",
-				 PasswordHash = hasher.HashPassword(null, "P@ssword1"),
+				 PasswordHash = hasher.HashPassword(null, "Qwerty@1234"),
 				 EmailConfirmed = true
 			 },
 			 new IdentityUser
@@ -27,7 +27,7 @@ public class UserConfiguration : IEntityTypeConfiguration<IdentityUser>
 				 NormalizedEmail = "USER@LOCALHOST.COM",
 				 UserName = "user@localhost.com",
 				 NormalizedUserName = "USER@LOCALHOST.COM",
-				 PasswordHash = hasher.HashPassword(null, "P@ssword1"),
+				 PasswordHash = hasher.HashPassword(null, "Qwerty@1234"),
 				 EmailConfirmed = true
 			 }
 		);

@@ -11,6 +11,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NetTopologySuite.Geometries;
+using System.ServiceModel.Channels;
 
 
 namespace Application.Features.DonationRequests.Handlers.Commands;
@@ -42,6 +43,7 @@ public class CreateDonationRequestCommandHandler: IRequestHandler<CreateDonation
 	public async Task<Unit> Handle(CreateDonationRequestCommand request,CancellationToken cancellationToken)
 	{
 		var donationRequest = _mapper.Map<DonationRequest>(request);
+
 		await _donationRequestRepository.AddAsync(donationRequest, cancellationToken);
 
 		var donors = await _donorRepository
@@ -55,6 +57,12 @@ public class CreateDonationRequestCommandHandler: IRequestHandler<CreateDonation
 
 		foreach (var donor in donors)
 		{
+
+			if (donor.Preference.Channels == null)
+			{
+				continue;
+			}
+
 			foreach (var channel in donor.Preference.Channels)
 			{
 				var service = _channels
@@ -74,6 +82,7 @@ public class CreateDonationRequestCommandHandler: IRequestHandler<CreateDonation
 					Longitude = request.Longitude,
 					City = request.City,
 					Email = donor.Email,
+					Message = request.Message,
 					FirstName = donor.FirstName,
 					LastName = donor.LastName
 				};

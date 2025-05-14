@@ -172,8 +172,8 @@ namespace Identity.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "30577476-8FFD-4898-B374-BEE7F2A6BE7F", 0, "de691522-abe7-4cae-bf7b-692b5e2c39ee", "user@localhost.com", true, false, null, "USER@LOCALHOST.COM", "USER@LOCALHOST.COM", "AQAAAAIAAYagAAAAEITxONCu/czFqCfLG6mVjo2ZuAGVCovuogZyd+36b2JB0xvXZ26yDrGSBLOL9gCOJw==", null, false, "cdb5aa02-36a5-4e79-8a15-4e19c774e0c0", false, "user@localhost.com" },
-                    { "717794D8-FCA0-4C24-84F0-55E3BD54D3C4", 0, "7bc43898-fc08-4f73-af29-5cf727dab36d", "admin@localhost.com", true, false, null, "ADMIN@LOCALHOST.COM", "ADMIN@LOCALHOST.COM", "AQAAAAIAAYagAAAAEF9kTprQcuq/8K/K1zNmN6xQNcpcDX9viDcDx4Ob0Flmka6RTaiaViWCnOH0tVxqPw==", null, false, "ae544c68-25c4-477b-8fa1-ff0118c1d690", false, "admin@localhost.com" }
+                    { "30577476-8FFD-4898-B374-BEE7F2A6BE7F", 0, "875b04f0-bfb2-4256-ae78-ffe8a0849a02", "user@localhost.com", true, false, null, "USER@LOCALHOST.COM", "USER@LOCALHOST.COM", "AQAAAAIAAYagAAAAECoOXHbjUCxggx2S0IY1HruVfiWyvBmuifMzvJ8MwZIhjcGF/+/sLUmIZR0E1xfw6w==", null, false, "426103b0-5cc7-44f2-b30a-0c1f44c401db", false, "user@localhost.com" },
+                    { "717794D8-FCA0-4C24-84F0-55E3BD54D3C4", 0, "4eaef869-f82e-4e23-82a3-dcf1662786a0", "admin@localhost.com", true, false, null, "ADMIN@LOCALHOST.COM", "ADMIN@LOCALHOST.COM", "AQAAAAIAAYagAAAAECVTULnZFb9s5OOrcqgw8PJs6XHzCoyGDHJbf8w4b7WFwS+UOe56aDu9Qz7gV7MrvQ==", null, false, "b5aaa67a-e2ea-42c5-aaee-c7c81e53a17d", false, "admin@localhost.com" }
                 });
 
             migrationBuilder.InsertData(

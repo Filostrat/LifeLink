@@ -3,20 +3,45 @@
     ViewData["Title"] = "Створити запит на донорство";
 }
 
-
 <div class="profile-form-wrapper d-flex justify-content-between" style="gap: 2rem;">
     <div class="form-section" style="flex: 1;">
         <form asp-action="Create" asp-controller="DonationRequests" method="post">
             <div>
                 <div class="mb-3">
-                    <label asp-for="BloodTypeId" class="form-label">Група крові</label>
-                    <select asp-for="BloodTypeId" asp-items="ViewBag.BloodTypes" class="form-control auth-input">
-                        <option value="">Оберіть групу</option>
-                    </select>
+                    <label class="form-label">Група крові</label>
+                    <div>
+                        @foreach (var item in (IEnumerable<SelectListItem>)ViewBag.BloodTypes)
+                        {
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input"
+                                       type="checkbox"
+                                       name="BloodTypeId"
+                                       value="@item.Value"
+                                       id="blood-@item.Value"
+                                       @(Model.BloodTypeId.Contains(int.Parse(item.Value)) ? "checked" : "") />
+                                <label class="form-check-label" for="blood-@item.Value">
+                                    @item.Text
+                                </label>
+                            </div>
+                        }
+                    </div>
                 </div>
+
                 <div class="mb-3">
                     <label asp-for="City" class="form-label">Місто</label>
-                    <input asp-for="City" id="city-input" class="form-control auth-input" placeholder="Місто" readonly />
+                    <input asp-for="City"
+                           id="city-input"
+                           class="form-control auth-input"
+                           placeholder="Місто"
+                           readonly />
+                    <span asp-validation-for="City" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Message" class="form-label">Повідомлення</label>
+                    <textarea asp-for="Message"
+                              class="form-control"
+                              placeholder="Введіть ваші дані..."></textarea>
                 </div>
 
                 <input asp-for="Latitude" type="hidden" id="lat-input" />
@@ -34,63 +59,87 @@
     </div>
 </div>
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
-<script>
 
+<link rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+<link rel="stylesheet"
+      href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+<script>
     var map = L.map('map', {
-        zoomControl: false,
-        attributionControl: false
+      zoomControl: false,
+      attributionControl: false
     }).setView([48.3794, 31.1656], 6);
 
     L.tileLayer(
-        'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
-        { maxZoom: 19 }
+      'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+      { maxZoom: 19 }
     ).addTo(map);
 
     var marker;
 
-    document.addEventListener('DOMContentLoaded', function () {
-        var latVal = '@(Model?.Latitude ?? 0)';
-        var lngVal = '@(Model?.Longitude ?? 0)';
-        var cityVal = '@Model?.City';
+    L.Control.geocoder({
+      defaultMarkGeocode: false,
+      placeholder: 'Пошук міста…'
+    })
+    .on('markgeocode', function(e) {
+      var r  = e.geocode;
+      var ll = r.center;
 
-        if (latVal && lngVal && latVal !== '0' && lngVal !== '0') {
-            var ll = L.latLng(+latVal, +lngVal);
-            marker = L.marker(ll).addTo(map);
-            map.setView(ll, 12);
-            document.getElementById('lat-input').value = ll.lat.toFixed(6);
-            document.getElementById('lng-input').value = ll.lng.toFixed(6);
-        }
-        else if (cityVal) {
-            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(cityVal)}`)
-                .then(res => res.json())
-                .then(results => {
-                    if (results.length) {
-                        var r = results[0];
-                        var ll = L.latLng(r.lat, r.lon);
-                        marker = L.marker(ll).addTo(map);
-                        map.setView(ll, 12);
-                        document.getElementById('lat-input').value = (+r.lat).toFixed(6);
-                        document.getElementById('lng-input').value = (+r.lon).toFixed(6);
-                    }
-                });
-        }
+      if (marker) marker.setLatLng(ll);
+      else        marker = L.marker(ll).addTo(map);
+
+      map.setView(ll, 12);
+
+      document.getElementById('lat-input').value  = ll.lat.toFixed(6);
+      document.getElementById('lng-input').value  = ll.lng.toFixed(6);
+      document.getElementById('city-input').value = r.name;
+    })
+    .addTo(map);
+
+    document.addEventListener('DOMContentLoaded', function () {
+      var latVal  = '@(Model?.Latitude ?? 0)';
+      var lngVal  = '@(Model?.Longitude ?? 0)';
+      var cityVal = '@Model?.City';
+
+      if (latVal && lngVal && latVal !== '0' && lngVal !== '0') {
+        var ll = L.latLng(+latVal, +lngVal);
+        marker = L.marker(ll).addTo(map);
+        map.setView(ll, 12);
+        document.getElementById('lat-input').value = ll.lat.toFixed(6);
+        document.getElementById('lng-input').value = ll.lng.toFixed(6);
+      }
+      else if (cityVal) {
+        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(cityVal)}`)
+          .then(res => res.json())
+          .then(results => {
+            if (results.length) {
+              var r  = results[0];
+              var ll = L.latLng(r.lat, r.lon);
+              marker = L.marker(ll).addTo(map);
+              map.setView(ll, 12);
+              document.getElementById('lat-input').value = (+r.lat).toFixed(6);
+              document.getElementById('lng-input').value = (+r.lon).toFixed(6);
+            }
+          });
+      }
     });
 
     map.on('click', function (e) {
-        var lat = e.latlng.lat.toFixed(6);
-        var lng = e.latlng.lng.toFixed(6);
-        if (marker) marker.setLatLng(e.latlng);
-        else marker = L.marker(e.latlng).addTo(map);
-        document.getElementById('lat-input').value = lat;
-        document.getElementById('lng-input').value = lng;
+      var lat = e.latlng.lat.toFixed(6);
+      var lng = e.latlng.lng.toFixed(6);
+      if (marker) marker.setLatLng(e.latlng);
+      else marker = L.marker(e.latlng).addTo(map);
+      document.getElementById('lat-input').value = lat;
+      document.getElementById('lng-input').value = lng;
 
-        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
-            .then(res => res.json())
-            .then(data => {
-                var city = data.address.city || data.address.town || data.address.village;
-                if (city) document.getElementById('city-input').value = city;
-            });
+      fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
+        .then(res => res.json())
+        .then(data => {
+          var city = data.address.city || data.address.town || data.address.village;
+          if (city) document.getElementById('city-input').value = city;
+        });
     });
 </script>

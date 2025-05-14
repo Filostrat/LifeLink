@@ -68,6 +68,8 @@ public class TelegramConsumerHostedService : BackgroundService
 
 				В місті <b>{payload.City}</b> потрібна саме твоя кров!
 
+				{payload.Message}
+
 				Якщо ви більше не бажаєте отримувати такі повідомлення, просто проігноруйте це.";
 
 				var inlineKeyboard = new InlineKeyboardMarkup(new[]

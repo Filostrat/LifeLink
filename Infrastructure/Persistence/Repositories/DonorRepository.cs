@@ -25,41 +25,45 @@ public class DonorRepository : GenericRepository<Donor>, IDonorRepository
 		_logger = logger;
 	}
 
-	public async Task<IEnumerable<Donor>> GetDonorsByBloodTypeAndLocationAsync(int recipientBloodTypeId, Point location, CancellationToken cancellationToken)
+	public async Task<IEnumerable<Donor>> GetDonorsByBloodTypeAndLocationAsync(
+	List<int>? recipientBloodTypeIds,
+	Point? location,
+	CancellationToken cancellationToken)
 	{
 		var now = DateTime.UtcNow;
 		var menThreshold = now.AddMonths(-_settings.MenDonationIntervalMonths);
 		var womenThreshold = now.AddMonths(-_settings.WomenDonationIntervalMonths);
 
-		_logger.LogInformation("Searching donors for blood type {BloodTypeId} within {Radius} meters", recipientBloodTypeId);
+		List<int>? compatibleDonorBloodTypeIds = null;
+		if (recipientBloodTypeIds != null && recipientBloodTypeIds.Any())
+		{
+			compatibleDonorBloodTypeIds = await _dbContext.BloodCompatibilities
+				.Where(c => recipientBloodTypeIds.Contains(c.ToBloodTypeId))
+				.GroupBy(c => c.FromBloodTypeId)
+				.Where(g => g.Select(x => x.ToBloodTypeId).Distinct().Count() == recipientBloodTypeIds.Distinct().Count())
+				.Select(g => g.Key)
+				.ToListAsync(cancellationToken);
+		}
 
-		var donors = await _dbContext.Donors
+		var query = _dbContext.Donors
 			.Include(d => d.BloodType)
 			.Include(d => d.Preference)
-			.ThenInclude(p => p.Channels)
-			.Where(d =>
-				_dbContext.BloodCompatibilities.Any(c =>
-					c.FromBloodTypeId == d.BloodTypeId &&
-					c.ToBloodTypeId == recipientBloodTypeId)
+				.ThenInclude(p => p.Channels)
+			.AsQueryable();
 
-				&& (d.Location == null
-					|| d.Location.Distance(location) <= _settings.RadiusInMeters)
+		if (compatibleDonorBloodTypeIds != null)
+		{
+			query = query.Where(d => compatibleDonorBloodTypeIds.Contains(d.BloodTypeId));
+		}
 
-				&& (!d.Weight.HasValue
-					|| d.Weight.Value >= _settings.MinWeightKg)
+		query = query.Where(d =>
+			(!d.Weight.HasValue || d.Weight.Value >= _settings.MinWeightKg) &&
+			(d.Gender == null ||
+				(d.Gender == "Male" && (!d.LastDonation.HasValue || d.LastDonation <= menThreshold)) ||
+				(d.Gender == "Female" && (!d.LastDonation.HasValue || d.LastDonation <= womenThreshold)))
+		);
 
-				&& (
-					d.Gender == null
-					|| (d.Gender == "Male"
-						&& (!d.LastDonation.HasValue || d.LastDonation <= menThreshold))
-					|| (d.Gender == "Female"
-						&& (!d.LastDonation.HasValue || d.LastDonation <= womenThreshold))
-				)
-			)
-			.ToListAsync(cancellationToken);
-
-		_logger.LogInformation("Found {Count} eligible donors", donors.Count);
-		return donors;
+		return await query.ToListAsync(cancellationToken);
 	}
 
 

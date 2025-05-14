@@ -38,7 +38,7 @@ public class EmailChannelService : IDonationRequestNotificationChannelService
 				message.Email,
 				message.City,
 				message.Latitude,
-				message.Longitude);
+				message.Longitude,message.Message);
 
 
 		await _producer.SendAsync(_topic, JsonConvert.SerializeObject(emailDto), ct);

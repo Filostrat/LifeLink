@@ -17,17 +17,23 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var req in Model)
+
+        @if (Model != null)
         {
-            <tr>
-                <td>@req.BloodTypeName</td>
-                <td>@req.City</td>
-                <td>@req.CreationDateTime</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@req.Id"
-                       class="btn btn-secondary">Деталі</a>
-                </td>
-            </tr>
+            @foreach (var req in Model)
+            {
+                <tr>
+                    <td>@(req.BloodTypeName == null ? "N/A" : String.Join(", ", req.BloodTypeName))</td>
+
+                    <td>@req.City</td>
+                    <td>@req.CreationDateTime</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@req.Id"
+                           class="btn btn-secondary">Деталі</a>
+                    </td>
+                </tr>
+            }
         }
+        
     </tbody>
 </table>

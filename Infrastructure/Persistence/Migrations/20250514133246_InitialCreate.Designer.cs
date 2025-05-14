@@ -13,7 +13,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DonorDbContext))]
-    [Migration("20250511193115_InitialCreate")]
+    [Migration("20250514133246_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -284,11 +284,7 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("BloodTypeId")
-                        .HasColumnType("int");
-
                     b.Property<string>("City")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreationDateTime")
@@ -300,14 +296,38 @@ namespace Persistence.Migrations
                     b.Property<double>("Longitude")
                         .HasColumnType("float");
 
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<double>("RadiusInMeters")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
 
+                    b.ToTable("DonationRequests");
+                });
+
+            modelBuilder.Entity("Domain.DonationRequestBloodType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BloodTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DonationRequestId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
                     b.HasIndex("BloodTypeId");
 
-                    b.ToTable("DonationRequests");
+                    b.HasIndex("DonationRequestId");
+
+                    b.ToTable("DonationRequestBloodTypeConfiguration");
                 });
 
             modelBuilder.Entity("Domain.DonationRequestNotification", b =>
@@ -452,7 +472,7 @@ namespace Persistence.Migrations
                     b.Navigation("ToBloodType");
                 });
 
-            modelBuilder.Entity("Domain.DonationRequest", b =>
+            modelBuilder.Entity("Domain.DonationRequestBloodType", b =>
                 {
                     b.HasOne("Domain.BloodType", "BloodType")
                         .WithMany()
@@ -460,7 +480,15 @@ namespace Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Domain.DonationRequest", "DonationRequest")
+                        .WithMany("DonationRequestBloodTypes")
+                        .HasForeignKey("DonationRequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("BloodType");
+
+                    b.Navigation("DonationRequest");
                 });
 
             modelBuilder.Entity("Domain.DonationRequestNotification", b =>
@@ -509,6 +537,8 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.DonationRequest", b =>
                 {
+                    b.Navigation("DonationRequestBloodTypes");
+
                     b.Navigation("Notifications");
                 });
 
